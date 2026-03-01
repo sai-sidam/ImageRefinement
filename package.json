@@ -1,0 +1,18 @@
+{
+  "name": "image-refinement-shopify",
+  "version": "1.0.0",
+  "description": "Image refinement tool for Shopify using Google AI Studio",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "refine": "node src/cli.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": ["shopify", "image", "google-ai", "gemini"],
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,8 +1,30 @@
-import { refineImageWithNanoBanana, refineWithReferenceImage } from "./google-ai.js";
+import { refineImageWithNanoBanana, refineWithReferenceImage, refineWithMultipleImages } from "./google-ai.js";
 import { getProduct, getProductImageUrl, fetchImageBytes } from "./shopify.js";
 import { ensureConfig } from "./config.js";
 import fs from "fs";
 import path from "path";
+
+/** Instruction when generating back pose using the product's actual back image(s) from Shopify. IMAGE 1 = our scene. IMAGE 2 (and optional IMAGE 3) = actual back of the dress. Output = same room, model from behind, dress back identical to the reference(s). */
+function getBackWithProductBackReferenceInstruction(numBackImages) {
+  const refText = numBackImages === 1
+    ? "IMAGE 2: The actual back of this dress from the product catalog."
+    : "IMAGE 2 and IMAGE 3: The actual back of this dress from the product catalog (two reference angles).";
+  const matchText = numBackImages === 1
+    ? "The BACK of the dress she is wearing must look EXACTLY like IMAGE 2. Copy the back design from IMAGE 2 precisely."
+    : "The BACK of the dress she is wearing must look EXACTLY like IMAGE 2 and IMAGE 3. Copy the back design from these references precisely — same details, positions, and style.";
+  return `You are given ${numBackImages + 1} image(s).
+
+IMAGE 1: Our approved detail shot — a woman in a dress in a room (same room we want to keep). This is the scene and lighting.
+
+${refText}
+
+TASK: Generate ONE image. The image must have:
+- The SAME room, same floor, same walls, same lighting as IMAGE 1. Same scale (model not oversized; environment has presence).
+- The model is shown FROM BEHIND, looking over her shoulder toward the camera (so she is still posing for the camera).
+- ${matchText} Same number of details (e.g. criss-cross, lacing, appliqué), same positions, same style. Do not add, remove, or alter any element.
+
+Output: One image. Same quality, same room, dress back identical to the product reference(s). June & Ember aesthetic.`;
+}
 
 /** Instruction when using a reference image. Images are sent as: IMAGE 1 = reference (scene), IMAGE 2 = our product (dress). Copy scene from IMAGE 1; put dress from IMAGE 2 on the model; new face. */
 const REFERENCE_INSTRUCTION_BASE = `You are given two images. The OUTPUT must combine them as described below.
@@ -86,6 +108,77 @@ export function buildOutputFilename(contentType, postId, slideIndex, slug, varia
   const base = `${contentType}_${id}_slide-${nn}_${slug}`;
   const v = variant != null ? String(variant).toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") : "";
   return v ? `${base}_v${v}.png` : `${base}.png`;
+}
+
+/**
+ * Refine a single local image with a prompt (e.g. director's-scene). Use when you have an existing image to upgrade to the same quality bar.
+ * @param {string} imagePath - Absolute or relative path to the image file
+ * @param {string} productId - Shopify product ID (for slug and title in filename)
+ * @param {object} options
+ * @param {number} [options.postId] - Post number for filename and prompt lookup. Default 1
+ * @param {string} [options.scene] - "directors" to load post-{id}-directors-scene-front.txt when prompt not provided
+ * @param {string} [options.prompt] - Refinement prompt (if not set and scene=directors, loaded from prompts folder)
+ * @param {string} [options.variant] - Variant label for filename. Default "directors-scene-refined"
+ * @param {string} [options.contentType] - "post" | "story" | "reel". Default "post"
+ * @param {string} [options.outputDir] - Base directory; images go to outputDir/{contentType}/. Default "./instagram-output"
+ * @param {string} [options.aspectRatio] - "4:5" etc. Default "4:5"
+ * @returns {Promise<{ productTitle, saved: string[], outputDir: string }>}
+ */
+export async function refineImageFromFile(imagePath, productId, options = {}) {
+  ensureConfig();
+  const {
+    postId = 1,
+    scene,
+    prompt: customPrompt,
+    variant = "directors-scene-refined",
+    contentType = "post",
+    outputDir: baseOutputDir = "./instagram-output",
+    aspectRatio = "4:5",
+  } = options;
+
+  const type = CONTENT_TYPES.includes(String(contentType).toLowerCase()) ? String(contentType).toLowerCase() : "post";
+  const outPath = path.resolve(baseOutputDir, type);
+  fs.mkdirSync(outPath, { recursive: true });
+
+  let prompt = customPrompt;
+  if (!prompt && String(scene || "").trim().toLowerCase() === "directors") {
+    const idStr = String(postId).padStart(2, "0");
+    const promptPath = path.join(path.resolve(baseOutputDir), "prompts", `post-${idStr}-directors-scene-front.txt`);
+    if (fs.existsSync(promptPath)) {
+      prompt = fs.readFileSync(promptPath, "utf8");
+    }
+  }
+  if (!prompt) {
+    throw new Error("Refine-from-file requires a prompt. Use --prompt=... or --scene=directors with --post=N and a post-NN-directors-scene-front.txt file.");
+  }
+
+  const product = await getProduct(productId);
+  const slug = product.title.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/gi, "").toLowerCase() || String(productId);
+  const resolvedPath = path.resolve(imagePath);
+  if (!fs.existsSync(resolvedPath)) {
+    throw new Error(`Image file not found: ${resolvedPath}`);
+  }
+  const imageBytes = fs.readFileSync(resolvedPath);
+  const mime = "image/png";
+  const result = await refineImageWithNanoBanana(
+    imageBytes,
+    prompt,
+    mime,
+    { aspectRatio, responseModalities: ["TEXT", "IMAGE"] }
+  );
+  const imageParts = result.imageParts ?? [];
+  if (imageParts.length === 0) {
+    throw new Error("No image returned from refinement.");
+  }
+  const baseName = buildOutputFilename(type, postId, 0, slug, variant);
+  const filePath = path.join(outPath, baseName);
+  const data = imageParts[0].inlineData?.data;
+  fs.writeFileSync(filePath, Buffer.from(data, "base64"));
+  return {
+    productTitle: product.title,
+    saved: [filePath],
+    outputDir: outPath,
+  };
 }
 
 /**
@@ -235,6 +328,8 @@ function getPoseChangeInstructionDetail(pose, productTitle) {
 
 CRITICAL — DRESS CONSISTENCY: The dress in the output must be IDENTICAL to the dress in this image. Same color, same pattern, same fabric, same cut, same length, same straps, same neckline. Do not change, simplify, or reinterpret the garment. Only the camera angle and pose change; the dress does not.
 
+CRITICAL — BACK DESIGN: Look at the input image. The output back must be a direct copy of the dress back from the input — same number of elements (e.g. same number of criss-cross or lace details), same positions, same spacing, same style (appliqué vs lacing vs cutout). Do not add, remove, or alter any decorative detail. Do not reinterpret or redesign. Fabric drape and strap placement must match the input. If the input shows a plain back, output a plain back; if it shows X's or lacing, output the same in the same layout.
+
 Generate a SECOND shot from the SAME shoot. The room must look IDENTICAL — same walls, same floor, same materials, same light.
 
 In this second shot: we see the BACK of the dress. The model can look over her shoulder toward the camera — so we see the back of the garment but she is still posing for the camera. Same dress, same environment, same scale. June & Ember aesthetic. Preserve original product colors and design 100%. Output one image.`;
@@ -266,6 +361,7 @@ export async function refinePoseFromImage(approvedImagePath, productId, options 
     pose,
     variant: variantSuffix,
     detailShot = false,
+    productBackImageIndex,
     contentType = "post",
     outputDir: baseOutputDir = "./instagram-output",
     aspectRatio = "4:5",
@@ -279,17 +375,53 @@ export async function refinePoseFromImage(approvedImagePath, productId, options 
   if (!fs.existsSync(rawPath)) {
     throw new Error(`Approved image not found: ${rawPath}`);
   }
-  const imageBytes = fs.readFileSync(rawPath);
+  const approvedBytes = fs.readFileSync(rawPath);
   const mime = rawPath.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg";
-  const instruction = detailShot
-    ? getPoseChangeInstructionDetail(pose, product.title)
-    : getPoseChangeInstruction(pose, product.title);
-  const result = await refineImageWithNanoBanana(
-    imageBytes,
-    instruction,
-    mime,
-    { aspectRatio, responseModalities: ["TEXT", "IMAGE"] }
-  );
+
+  let result;
+  if (pose === "back" && productBackImageIndex != null) {
+    const indices = typeof productBackImageIndex === "string"
+      ? productBackImageIndex.split(",").map((s) => parseInt(s.trim(), 10)).filter((n) => !Number.isNaN(n))
+      : [Number(productBackImageIndex)];
+    if (indices.length === 0) throw new Error("productBackImageIndex must be a number or comma-separated numbers (e.g. 2,4)");
+    const productBackBuffers = await Promise.all(
+      indices.map(async (idx) => {
+        const url = getProductImageUrl(product, idx);
+        if (!url) throw new Error(`Product has no image at index ${idx}`);
+        return fetchImageBytes(url);
+      })
+    );
+    const instruction = getBackWithProductBackReferenceInstruction(indices.length);
+    if (indices.length === 1) {
+      result = await refineWithReferenceImage(
+        productBackBuffers[0],
+        approvedBytes,
+        instruction,
+        "image/jpeg",
+        mime,
+        { aspectRatio, responseModalities: ["TEXT", "IMAGE"], referenceFirst: true }
+      );
+    } else {
+      const imageParts = [
+        { data: approvedBytes, mime },
+        ...productBackBuffers.map((buf) => ({ data: buf, mime: "image/jpeg" })),
+      ];
+      result = await refineWithMultipleImages(instruction, imageParts, {
+        aspectRatio,
+        responseModalities: ["TEXT", "IMAGE"],
+      });
+    }
+  } else {
+    const instruction = detailShot
+      ? getPoseChangeInstructionDetail(pose, product.title)
+      : getPoseChangeInstruction(pose, product.title);
+    result = await refineImageWithNanoBanana(
+      approvedBytes,
+      instruction,
+      mime,
+      { aspectRatio, responseModalities: ["TEXT", "IMAGE"] }
+    );
+  }
   const imageParts = result.imageParts ?? [];
   if (imageParts.length === 0) {
     throw new Error("No image returned from pose change.");

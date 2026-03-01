@@ -23,7 +23,9 @@ Every post image must meet **this level** of quality — full environment, story
 
 - **Post 1 used:** Boutique — ornate mirror, platform/pedestal, clothing rack with hangers, sheer curtains, warm wall. Do not reuse that combination.
 - **Post 2 used:** Lobby/lounge — couch/sofa, armchair, side table, potted plant, large window, warm neutrals. Do not reuse that combination.
-- **Post 3 and onward:** Choose a different type of place each time: e.g. white plaster or stone wall, tile or terrazzo floor, outdoor terrace, minimal bedroom with linen, corridor with archway, etc. Different materials, different furniture, different props. So the feed has variety, not the same room in different clothes.
+- **Post 3 used:** White/plaster or terrazzo detail room (detail shot carousel). Do not reuse that combination.
+- **Post 4 used:** Light-filled corridor or arched interior — warm stone/tile/plaster, archway, minimal greenery. Do not reuse that combination.
+- **Post 5 and onward:** Choose a different type of place each time: e.g. outdoor terrace, minimal bedroom with linen, etc. Different materials, different furniture, different props. So the feed has variety, not the same room in different clothes.
 
 When writing prompts, explicitly say what this post is NOT (e.g. "Not a lobby with couch; not a boutique with mirror") and what it IS (e.g. "White plaster room with terrazzo floor" or "Outdoor terrace with stone and greenery").
 
@@ -45,15 +47,15 @@ So: one approved image = the “scene lock.” Further poses are **pose-only var
 
 ## Single image vs carousel — scene suitability (Post 2 learnings)
 
-**Fallback:** A scene can be **excellent for a single hero shot** but **not suitable for a back or side shot** in the same room. Do not force a carousel. When in doubt, use **single image**.
+**Decision up front:** Whether a post is **single image** or **carousel** is decided **before** we start generation. We do not decide after the fact; we plan it, then generate accordingly.
 
-**Why (from Post 2):** Post 2 had an approved front = model seated on couch, lobby/lounge. Great single image. We tried to add a back shot. Problems: (1) No natural story reason for her to turn; (2) Generating back from scratch gave a different room, felt AI; (3) Editing the front to "pose only" caused artifacts (e.g. messed-up feet). **Conclusion:** That scene was not suitable for a back pose. We use single image only for Post 2.
+**When we plan a carousel:** We choose a scene and brief that support multiple angles from the start (e.g. mirror; standing by window; walking; detail shot in a room that allows back/side). The first image is approved with that in mind — same room must work for slide 2 and 3.
 
-**Before planning a carousel with back/side, check:** (1) **Story reason** — Is there a clear in-scene reason for a second angle? (e.g. mirror, walking, standing by window and turning to look.) (2) **Same room** — Can we get a second shot that matches the same room? If not, carousel will feel inconsistent. If either is unclear, **use single image**.
+**When we plan a single image:** We may use a scene that is optimized for one strong hero moment (e.g. seated on couch, one pose). We do not add back/side later; the post is single by design.
 
-**When carousel makes sense:** Scene is designed for multiple angles from the start (e.g. mirror; standing by window; walking). When the scene is a strong single-hero moment (seated, one pose), prefer single image.
+**Why (from Post 2):** Post 2 was planned as single. The approved front = model seated on couch, lobby/lounge. We later tried to add a back shot. Problems: (1) No natural story reason for her to turn; (2) Generating back from scratch gave a different room, felt AI; (3) Editing the front to "pose only" caused artifacts. **Conclusion:** That scene was not suitable for a back pose — and we had already decided single, so we kept it. For any post planned as carousel, choose a scene that supports back/side before generating the first image.
 
-**Process reminder:** When approving the first image, note whether the scene supports a second angle. If it is optimized for one strong hero shot, lock as single image; do not add back/side.
+**Process reminder:** When planning the post, decide single vs carousel first. When approving the first image for a carousel, confirm the scene supports a second angle (story reason, same room). If the scene is a strong single-hero only, the post should have been planned as single image.
 
 ---
 
@@ -67,6 +69,18 @@ When the approved image is a **detail shot** (no face) and the scene is distinct
 4. **Same room:** Room must look identical in every slide — same walls, floor, materials, light. So the carousel feels like one shoot.
 
 Use this reasoning for any future detail-shot carousels. Tool: `npm run refine -- instagram <productId> --post=N --from-image=path/to/approved-detail.png --pose=back|side --detail`.
+
+**Back-image consistency checklist (when reviewing slide 2):** (1) Back design — criss-cross, lacing, appliqué, or cutout matches the product and slide 1 in style, count, spacing, and proportion; not reinterpreted. (2) Fabric drape natural on back/waist. (3) Straps aligned and natural. (4) Single light source; shadows consistent with the room.
+
+**Product back reference (when the generated back doesn’t match the real product):** If the model invents or misrepresents the back design, lock it to the catalog by sending Shopify product image(s) that show the actual back. The model gets: IMAGE 1 = approved scene (slide 1), IMAGE 2 (and optionally IMAGE 3) = product photo(s) of the back. It is instructed to keep the same room and only change the pose, with the dress back matching the product image(s) exactly.
+
+- **Find the right images:** In the Shopify product media, identify which image index (0-based) shows the back — e.g. 3rd and 5th image = indices **2** and **4**.
+- **Single reference:** `--product-back-image=2`
+- **Multiple references (recommended when back is shown in two angles):** `--product-back-image=2,4`
+- **Example (Post 3):**  
+  `npm run refine -- instagram 8556632473688 --post=3 --from-image=instagram-output/post/post_03_slide-01_contrast-mini-cami-dress_vdirectors-scene-detail.png --pose=back --detail --product-back-image=2,4`
+
+Reuse this flow for any future post where the back slide must match the product’s real back (detail carousels or full-scene back shots).
 
 ---
 
@@ -98,7 +112,7 @@ Input = approved image path. Instruction = same scene, same dress, change only p
 
 - **Quality bar:** Director's-scene level (full environment, story, same light, real place) for every post. Bar is that high; the set (location/props) can differ per post. Finalized.
 - **Workflow:** One image approved first; additional poses = send approved image to LLM, change only pose. Finalized.
-- **Single vs carousel (fallback):** Not every scene supports a back/side shot. If the approved scene is a strong single-hero moment (e.g. seated on couch), use single image; do not force carousel. Carousel only when the scene naturally supports multiple angles (mirror, window, walking). See "Single image vs carousel — scene suitability" above.
+- **Single vs carousel:** Decided before we start generation. Plan single when the scene is one strong hero moment (e.g. seated on couch); plan carousel when the scene supports multiple angles (mirror, window, walking, detail in same room). See "Single image vs carousel — scene suitability" above.
 - **Post 1:** Final image = directors-scene-front. Set used for Post 1 = boutique (mirror, platform, hangers, curtains); that set was for this post only. Finalized.
 - **Post 2:** Single image only (front). Scene was not suitable for back; we do not repeat the mistake. Finalized.
-- **Post 3 / detail carousel:** When scene supports it, use --detail for back/side. Reasoning in prompt: dress identical across slides; back = look over shoulder; side = same scale; same room. See "Detail-shot carousel" above.
+- **Post 3 / detail carousel:** When scene supports it, use --detail for back/side. Reasoning in prompt: dress identical across slides; back = look over shoulder; side = same scale; same room. See "Detail-shot carousel" above. If the generated back doesn’t match the product, use **product back reference**: `--product-back-image=<index>` or `--product-back-image=2,4` (comma-separated) so the model copies the real back from Shopify product image(s).

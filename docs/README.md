@@ -38,6 +38,14 @@ All strategy, brand, and copy live here. Use this index to find the right doc.
 
 ---
 
+## Architecture & tool
+
+| File | Use it for |
+|------|------------|
+| [ARCHITECTURE_AND_FLOW.md](ARCHITECTURE_AND_FLOW.md) | **How the process works:** CLI → flows (generate from product, pose from approved image, refine local image). Modules (instagram, google-ai, shopify, config), prompt/output conventions, and how to add or change a flow. |
+
+---
+
 ## Where output lives
 
 - **Generated images + post plan:** [../instagram-output/](../instagram-output/) — PNGs and [ALL_POSTS_READY.md](../instagram-output/ALL_POSTS_READY.md) (post-by-post instructions).

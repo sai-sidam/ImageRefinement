@@ -151,6 +151,34 @@ export async function refineWithReferenceImage(
 }
 
 /**
+ * Generate with one instruction and multiple images (e.g. scene + two product back references).
+ * @param {string} instruction - Full prompt
+ * @param {Array<{ data: Buffer|string, mime: string }>} imageParts - In order: [scene, ref1, ref2, ...]
+ * @param {object} options - { aspectRatio, responseModalities }
+ */
+export async function refineWithMultipleImages(instruction, imageParts, options = {}) {
+  const { aspectRatio, responseModalities = ["TEXT", "IMAGE"] } = options;
+  const client = getClient();
+  const generationConfig = {
+    responseModalities: Array.isArray(responseModalities) ? responseModalities : ["TEXT", "IMAGE"],
+    ...(aspectRatio && { imageConfig: { aspectRatio } }),
+  };
+  const model = client.getGenerativeModel({
+    model: NANO_BANANA_MODEL,
+    generationConfig,
+  });
+  const parts = [
+    instruction,
+    ...imageParts.map((p) => imagePart(p.data, p.mime)),
+  ];
+  const result = await model.generateContent(parts);
+  const response = result.response;
+  const text = response.text?.() ?? "";
+  const outParts = (response.candidates?.[0]?.content?.parts ?? []).filter((p) => p.inlineData);
+  return { text, imageParts: outParts, raw: response };
+}
+
+/**
  * Get alt text or product description suggestions for a product image (useful for Shopify SEO).
  * @param {Buffer|string} imageData
  * @param {string} productTitle - Optional product title for context

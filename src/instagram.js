@@ -4,9 +4,25 @@ import { ensureConfig } from "./config.js";
 import fs from "fs";
 import path from "path";
 
-/** Instruction when using a reference image: copy composition/pose/lighting from reference, keep our dress, new face. */
-const REFERENCE_INSTRUCTION_BASE =
-  "You are given two images. IMAGE 1 is our product: a dress on a model. IMAGE 2 is a reference photo from a fashion brand. Create one new image that: (1) uses the same composition, pose, lighting, setting, and mood as IMAGE 2; (2) the garment worn must be the dress from IMAGE 1 — keep its exact color, pattern, and design; (3) the model's face must be different from both images — natural, diverse, confident. Output sharp, high-resolution, natural-looking fashion photography. June & Ember aesthetic.";
+/** Instruction when using a reference image. Images are sent as: IMAGE 1 = reference (scene), IMAGE 2 = our product (dress). Copy scene from IMAGE 1; put dress from IMAGE 2 on the model; new face. */
+const REFERENCE_INSTRUCTION_BASE = `You are given two images. The OUTPUT must combine them as described below.
+
+IMAGE 1 (reference — the SCENE): A fashion photo (e.g. boutique, dressing room). The person in it is wearing some outfit (e.g. a pink or light-colored dress). You will NOT keep that outfit. Keep everything else from this image exactly:
+- Exact composition, framing, and camera angle
+- The full environment: the mirror (and its reflection), the clothing rack with all the dresses on hangers, the walls, the floor, the circular platform or pedestal the model stands on
+- The model's pose, stance, and body position (e.g. arms raised to the mirror, weight on one leg)
+- Her shoes and heels — identical to IMAGE 1
+- Her hair — same style, length, and placement (only the face will change)
+- Lighting, shadows, color temperature, and mood
+
+IMAGE 2 (our product — the DRESS): A dress on a model. This is the ONLY garment the person in the output may wear.
+
+WHAT TO DO:
+1. Take the full scene from IMAGE 1 (same background, platform, mirror, rack, pose, heels, hair).
+2. Remove the outfit the person is wearing in IMAGE 1. Do not draw any pink sequined corset, mini skirt, or the reference's dress. Replace it entirely with the dress from IMAGE 2. The person in the output must be wearing the dress from IMAGE 2 only — same color, fabric, design, and length (e.g. if it is a maxi dress, show it full length; if it has wide straps or is backless, show that).
+3. Change the model's face to a different person — natural, confident. Keep the same hair style as IMAGE 1; new face.
+
+Output: One image. Same photo as IMAGE 1 in every way (scene, platform, heels, hair, hangers, mirror, lighting) except: the model is wearing the dress from IMAGE 2 and has a new face. If there is a mirror reflection of the model in the scene, the reflection must also show her wearing the same dress (from IMAGE 2), not the outfit from IMAGE 1. Sharp, high-resolution, natural fashion photography. June & Ember aesthetic.`;
 
 /** Default prompt for Instagram-ready product photos. Preserve garment color when refining existing images. */
 const DEFAULT_INSTAGRAM_PROMPT =
@@ -29,7 +45,7 @@ export const INSTAGRAM_STYLE_PRESETS = {
     "Minimalist product image: clean background, soft lighting, focus on fabric and shape. Simple and elegant, suitable for a refined women's fashion Instagram.",
   /** June & Ember (junenember.com): natural-model style — sharp, natural pose/hair/expression, directional light (see docs/AI_VS_NATURAL_IMAGERY.md). */
   juneember:
-    "Refine this product image for Instagram. Keep the garment/dress exactly as is — do not change its color, pattern, or fabric. Output must be sharp, clear, and high-resolution; professional fashion-photography quality. The model (person) must look natural: relaxed natural pose, natural hair with soft movement or natural fall, natural expression and relaxed body language, like a real fashion photograph. Improve only background and lighting: one clear directional light source (e.g. soft window or daylight from one side), soft shadows that match the scene, subtle warmth. Elegant interior or resort setting, well-lit. Product as hero, center frame. June & Ember aesthetic. Preserve original product colors 100%.",
+    "Refine this product image for Instagram. Keep the garment/dress exactly as is — do not change its color, pattern, or fabric. Output must be sharp, clear, and high-resolution; professional fashion-photography quality. The model (person) must look natural: relaxed natural pose, natural hair with soft movement or natural fall, natural expression and relaxed body language, like a real fashion photograph. Any look that fits an elegant occasion-wear brand (hair color, ethnicity open); focus is the dress and the mood. Improve only background and lighting: one clear directional light source (e.g. soft window or daylight from one side), soft shadows that match the scene, subtle warmth. Elegant interior or resort setting, well-lit. Product as hero, center frame. June & Ember aesthetic. Preserve original product colors 100%.",
 };
 
 /** Expert rule: hero = with face, detail = no face. See docs/SOCIAL_MEDIA_EXPERT.md */
@@ -122,8 +138,10 @@ export async function refineProductForInstagram(productId, options = {}) {
 
   let referenceBytes = null;
   if (referenceImageUrl || referenceImagePath) {
-    if (referenceImagePath && fs.existsSync(referenceImagePath)) {
-      referenceBytes = fs.readFileSync(referenceImagePath);
+    const rawPath = referenceImagePath ? String(referenceImagePath).replace(/^=/, "").trim() : null;
+    const refPath = rawPath ? path.resolve(rawPath) : null;
+    if (refPath && fs.existsSync(refPath)) {
+      referenceBytes = fs.readFileSync(refPath);
     } else if (referenceImageUrl) {
       referenceBytes = await fetchImageBytes(referenceImageUrl);
     }
@@ -142,7 +160,11 @@ export async function refineProductForInstagram(productId, options = {}) {
     const imageBytes = await fetchImageBytes(imageUrl);
     let result;
     if (referenceBytes) {
-      const refInstruction = getPromptWithFrameStrategy(REFERENCE_INSTRUCTION_BASE, style, i);
+      const productHint = product.title
+        ? ` Our product in IMAGE 2 is: ${product.title}. The model in the output must wear this exact garment (from IMAGE 2), not the outfit from IMAGE 1.`
+        : "";
+      const refInstruction =
+        getPromptWithFrameStrategy(REFERENCE_INSTRUCTION_BASE + productHint, style, i);
       result = await refineWithReferenceImage(
         imageBytes,
         referenceBytes,
@@ -180,6 +202,114 @@ export async function refineProductForInstagram(productId, options = {}) {
     productId,
     productTitle: product.title,
     saved,
+    outputDir: outPath,
+  };
+}
+
+/** Pose-change prompt: same scene, same garment, same position (e.g. still seated). Only camera/view changes so we see back or side of outfit. Story must flow. */
+function getPoseChangeInstruction(pose, productTitle) {
+  const garment = productTitle || "the garment";
+  if (pose === "back") {
+    return `This image is one shot from a fashion shoot — same model, same outfit (${garment}), in a lobby/lounge with couch, furniture, window.
+
+Generate a SECOND shot from the SAME shoot. Critical: the room must look IDENTICAL — same couch, same furniture, same walls, same lighting, same window. It must feel like the photographer moved to the other side of the room, not a different place.
+
+In this second shot: the camera is behind her. She is still SEATED on the same couch, but she has turned to look out the window. We see her back and the back of the jumpsuit. Same moment, same room; we are just seeing her from behind. Her feet/shoes natural and coherent. Do not change or invent new furniture or walls — match the room from the image exactly. June & Ember aesthetic. Output one image.`;
+  }
+  if (pose === "side") {
+    return `This image shows a model in a full environment — she is SEATED on a couch, chair, or similar (lobby/lounge). Keep EVERYTHING the same: same environment, same furniture, same lighting, same room, same garment (${garment}). She must STAY in the same position — still seated on the same couch/chair. Do not make her stand up.
+
+ONLY change the viewpoint so we see the SIDE of the outfit: camera from the side, or she turns slightly while still seated so we see the side of the jumpsuit. She remains seated; same moment, same seat. The story must flow. Natural, coherent. June & Ember aesthetic. Output one image.`;
+  }
+  throw new Error("pose must be 'back' or 'side'");
+}
+
+/**
+ * Pose-change for DETAIL shots (no face): same room, same dress; show back or side of garment.
+ * Reasoning (Post 3 — keep in prompt): (1) Dress consistency: identical garment across slides — same color, pattern, cut, length, straps; only angle changes. (2) Back: model looks over shoulder toward camera so she's still posing for camera while showing back of dress. (3) Side: same scale as other slides — model not oversized, environment has presence. (4) Same room in every slide. See docs/DIRECTORS_SCENE_STANDARD.md "Detail-shot carousel".
+ */
+function getPoseChangeInstructionDetail(pose, productTitle) {
+  const garment = productTitle || "the garment";
+  if (pose === "back") {
+    return `This image is a detail shot (no face) from a fashion shoot — same room, same outfit (${garment}), same lighting, same floor and walls.
+
+CRITICAL — DRESS CONSISTENCY: The dress in the output must be IDENTICAL to the dress in this image. Same color, same pattern, same fabric, same cut, same length, same straps, same neckline. Do not change, simplify, or reinterpret the garment. Only the camera angle and pose change; the dress does not.
+
+Generate a SECOND shot from the SAME shoot. The room must look IDENTICAL — same walls, same floor, same materials, same light.
+
+In this second shot: we see the BACK of the dress. The model can look over her shoulder toward the camera — so we see the back of the garment but she is still posing for the camera. Same dress, same environment, same scale. June & Ember aesthetic. Preserve original product colors and design 100%. Output one image.`;
+  }
+  if (pose === "side") {
+    return `This image is a detail shot (no face) from a fashion shoot — same room, same outfit (${garment}), same lighting, same floor and walls.
+
+CRITICAL — DRESS CONSISTENCY: The dress in the output must be IDENTICAL to the dress in this image. Same color, same pattern, same fabric, same cut, same length, same straps, same neckline. Do not change, simplify, or reinterpret the garment. Only the camera angle and pose change; the dress does not.
+
+Generate a SECOND shot from the SAME shoot. The room must look IDENTICAL — same walls, same floor, same materials, same light.
+
+In this second shot: we see the SIDE of the dress. Same scale as the first image — model not oversized; environment has presence. Same dress. June & Ember aesthetic. Preserve original product colors and design 100%. Output one image.`;
+  }
+  throw new Error("pose must be 'back' or 'side'");
+}
+
+/**
+ * Generate a new pose (back or side) from an approved image. Same scene, same garment; only the model's pose changes. For carousel slide 2/3.
+ * Fallback (Post 2): Not every scene supports back/side — e.g. seated on couch facing camera is great as single image but hard for same-room back. If the scene doesn't naturally support a second angle (story reason + same room), use single image; see docs/DIRECTORS_SCENE_STANDARD.md "Single image vs carousel".
+ * @param {string} approvedImagePath - Path to the approved front image (e.g. post_02_..._vdirectors-scene-front.png)
+ * @param {string} productId - Shopify product ID (used to get slug and title for filename and prompt)
+ * @param {object} options - { postId, pose: 'back'|'side', contentType, outputDir, aspectRatio }
+ * @returns {Promise<{ productId, productTitle, saved: string[], outputDir: string }>}
+ */
+export async function refinePoseFromImage(approvedImagePath, productId, options = {}) {
+  ensureConfig();
+  const {
+    postId = 1,
+    pose,
+    variant: variantSuffix,
+    detailShot = false,
+    contentType = "post",
+    outputDir: baseOutputDir = "./instagram-output",
+    aspectRatio = "4:5",
+  } = options;
+  if (!pose || !["back", "side"].includes(pose)) {
+    throw new Error("refinePoseFromImage requires pose: 'back' or 'side'");
+  }
+  const product = await getProduct(productId);
+  const slug = product.title.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/gi, "").toLowerCase() || String(productId);
+  const rawPath = path.resolve(String(approvedImagePath).replace(/^=/, "").trim());
+  if (!fs.existsSync(rawPath)) {
+    throw new Error(`Approved image not found: ${rawPath}`);
+  }
+  const imageBytes = fs.readFileSync(rawPath);
+  const mime = rawPath.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg";
+  const instruction = detailShot
+    ? getPoseChangeInstructionDetail(pose, product.title)
+    : getPoseChangeInstruction(pose, product.title);
+  const result = await refineImageWithNanoBanana(
+    imageBytes,
+    instruction,
+    mime,
+    { aspectRatio, responseModalities: ["TEXT", "IMAGE"] }
+  );
+  const imageParts = result.imageParts ?? [];
+  if (imageParts.length === 0) {
+    throw new Error("No image returned from pose change.");
+  }
+  const slideIndex = pose === "back" ? 1 : 2; // back = slide-02, side = slide-03
+  const variant = variantSuffix
+    ? `directors-scene-${pose}-${variantSuffix}`
+    : detailShot
+      ? `directors-scene-detail-${pose}`
+      : `directors-scene-${pose}`;
+  const outPath = path.resolve(baseOutputDir, contentType);
+  fs.mkdirSync(outPath, { recursive: true });
+  const baseName = buildOutputFilename(contentType, postId, slideIndex, slug, variant);
+  const filePath = path.join(outPath, baseName);
+  const data = imageParts[0].inlineData?.data;
+  fs.writeFileSync(filePath, Buffer.from(data, "base64"));
+  return {
+    productId,
+    productTitle: product.title,
+    saved: [filePath],
     outputDir: outPath,
   };
 }

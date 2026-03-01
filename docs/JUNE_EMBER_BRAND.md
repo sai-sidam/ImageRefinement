@@ -6,6 +6,8 @@
 
 *Use this as the single reference for the June & Ember Instagram visual system. Locked to the mood board (elegant, feminine, aspirational; warm neutrals + jewel accents; resort/luxe settings).*
 
+**Customer & empathy:** Every post and message must reflect **who she is** and **what she wants** — not only what we want to say. Full framework: [CUSTOMER_AND_EMPATHY_ANGLE.md](CUSTOMER_AND_EMPATHY_ANGLE.md). **One-line empathy angle:** We’re here for the moments that matter; we want you to feel confident, put-together, and like yourself — elegant and effortless, without the “nothing to wear” stress.
+
 ---
 
 ## Mood Board Summary (Visual Foundation)
@@ -154,6 +156,8 @@ npm run refine -- instagram <productId> --all --style=juneember --output=./june-
 
 ## Quick Reference
 
+- **Customer & empathy (no gap):** [CUSTOMER_AND_EMPATHY_ANGLE.md](CUSTOMER_AND_EMPATHY_ANGLE.md)
+- **No-gaps checklist (every angle):** [NO_GAPS_CHECKLIST.md](NO_GAPS_CHECKLIST.md)
 - **Strategy & posting:** [INSTAGRAM_GUIDE.md](INSTAGRAM_GUIDE.md)
 - **Visual system deep-dive:** [VISUAL_SYSTEM.md](VISUAL_SYSTEM.md)
 - **One-pager template (blank):** [VISUAL_SYSTEM_TEMPLATE.md](VISUAL_SYSTEM_TEMPLATE.md)

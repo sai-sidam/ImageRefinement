@@ -110,14 +110,15 @@ export async function refineImageWithNanoBanana(imageData, instruction, mimeType
 }
 
 /**
- * Refine with a reference image: product image + reference image → one output.
- * Use reference for composition, pose, lighting, setting; keep garment from product image; different natural face.
+ * Refine with a reference image: combine reference scene with our product (dress on model).
+ * Use reference for composition, pose, lighting, setting; put our dress on the model; different natural face.
  * @param {Buffer|string} productImageData - Our product (dress) image
- * @param {Buffer|string} referenceImageData - Reference photo (e.g. from inspiration account)
+ * @param {Buffer|string} referenceImageData - Reference photo (scene to keep)
  * @param {string} instruction - What to do (or use default)
  * @param {string} productMime - Mime for product image
  * @param {string} referenceMime - Mime for reference image
- * @param {object} options - { aspectRatio, responseModalities }
+ * @param {object} options - { aspectRatio, responseModalities, referenceFirst }
+ * @param {boolean} [options.referenceFirst] - If true, send reference then product (scene first, dress second) so model composites "put dress from IMAGE 2 on person in IMAGE 1"
  */
 export async function refineWithReferenceImage(
   productImageData,
@@ -127,7 +128,7 @@ export async function refineWithReferenceImage(
   referenceMime = "image/jpeg",
   options = {}
 ) {
-  const { aspectRatio, responseModalities = ["TEXT", "IMAGE"] } = options;
+  const { aspectRatio, responseModalities = ["TEXT", "IMAGE"], referenceFirst = true } = options;
   const client = getClient();
   const generationConfig = {
     responseModalities: Array.isArray(responseModalities) ? responseModalities : ["TEXT", "IMAGE"],
@@ -139,11 +140,13 @@ export async function refineWithReferenceImage(
   });
   const productPart = imagePart(productImageData, productMime);
   const referencePart = imagePart(referenceImageData, referenceMime);
-  const result = await model.generateContent([instruction, productPart, referencePart]);
+  const parts = referenceFirst
+    ? [instruction, referencePart, productPart]
+    : [instruction, productPart, referencePart];
+  const result = await model.generateContent(parts);
   const response = result.response;
   const text = response.text?.() ?? "";
-  const parts = response.candidates?.[0]?.content?.parts ?? [];
-  const imageParts = parts.filter((p) => p.inlineData);
+  const imageParts = (response.candidates?.[0]?.content?.parts ?? []).filter((p) => p.inlineData);
   return { text, imageParts, raw: response };
 }
 

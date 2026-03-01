@@ -1,7 +1,9 @@
 #!/usr/bin/env node
+import fs from "fs";
+import path from "path";
 import { ensureConfig } from "./config.js";
 import { refineProductAltText } from "./refine.js";
-import { refineProductForInstagram } from "./instagram.js";
+import { refineProductForInstagram, refinePoseFromImage } from "./instagram.js";
 import { listProducts } from "./shopify.js";
 
 const args = process.argv.slice(2);
@@ -9,9 +11,11 @@ const command = args[0];
 
 function parseArgs(flags) {
   const out = {};
-  for (const f of flags) {
+  for (let i = 0; i < flags.length; i++) {
+    const f = flags[i];
     if (f === "--apply") out.apply = true;
     if (f === "--all") out.allImages = true;
+    if (f.startsWith("--angles=")) out.angles = f.slice(9);
     if (f.startsWith("--aspect=")) out.aspectRatio = f.slice(9);
     if (f.startsWith("--output=")) out.outputDir = f.slice(9);
     if (f.startsWith("--max=")) out.maxImages = parseInt(f.slice(6), 10);
@@ -24,8 +28,17 @@ function parseArgs(flags) {
       out.prompt = v;
     }
     if (f.startsWith("--variant=")) out.variant = f.slice(10);
+    if (f.startsWith("--scene=")) out.scene = f.slice(8).replace(/^=/, "");
     if (f.startsWith("--reference-url=")) out.referenceImageUrl = f.slice(16);
-    if (f.startsWith("--reference-path=")) out.referenceImagePath = f.slice(16);
+    if (f === "--reference-path" && flags[i + 1] != null) {
+      out.referenceImagePath = flags[i + 1];
+      i++;
+    } else if (f.startsWith("--reference-path=")) {
+      out.referenceImagePath = f.slice(16);
+    }
+    if (f.startsWith("--from-image=")) out.fromImage = f.slice(13).replace(/^=/, "");
+    if (f.startsWith("--pose=")) out.pose = f.slice(7).replace(/^=/, "").toLowerCase();
+    if (f === "--detail") out.detailShot = true;
   }
   return out;
 }
@@ -49,7 +62,11 @@ Usage:
   node src/cli.js instagram <productId> --style=juneember --type=post --post=3
   node src/cli.js instagram <productId> --post=1 --type=post --style=juneember --prompt="..."   Custom prompt (overrides style text; hero face still added if style=juneember)
   node src/cli.js instagram <productId> --post=1 --variant=02   Save as ..._v02.png (keeps all variants).
+  node src/cli.js instagram <productId> --post=1 --angles=front,back,side   Director's shoot: 3 poses (prompts post-01-pro-grade-{angle}.txt). Social manager selects which to post.
+  node src/cli.js instagram <productId> --post=1 --angles=front,back,side --scene=directors   Same but director's-scene detail (mirror, platform, hangers, curtains). Prompts: post-01-directors-scene-{angle}.txt. Output: _vdirectors-scene-front.png etc.
   node src/cli.js instagram <productId> --post=1 --reference-url=URL   Use reference image: same pose/lighting, our dress, new face. Or --reference-path=./ref.png
+  node src/cli.js instagram <productId> --post=2 --from-image=path/to/front.png --pose=back   Same scene, same garment; only change pose to back (carousel slide 2). Use --pose=side for slide 3.
+  node src/cli.js instagram <productId> --post=3 --from-image=path/to/detail.png --pose=back --detail   Detail shot: same room, show back of dress (no face). Use --pose=side for side detail.
   Naming: {type}_{id}_slide-{nn}_{slug}.png or ..._v{variant}.png. Director's view: docs/DIRECTORS_VIEW.md
 
 Setup:
@@ -91,10 +108,69 @@ Setup:
   if (command === "instagram") {
     const productId = args[1];
     if (!productId) {
-      console.error("Usage: node src/cli.js instagram <productId> [--all] [--aspect=4:5] [--output=dir]");
+      console.error("Usage: node src/cli.js instagram <productId> [--all] [--aspect=4:5] [--output=dir] [--angles=front,back,side]");
       process.exit(1);
     }
     const opts = parseArgs(args.slice(2));
+
+    // Pose from approved image: same scene, same garment, only change pose (back or side) for carousel.
+    if (opts.fromImage && opts.pose) {
+      const result = await refinePoseFromImage(opts.fromImage, productId, {
+        postId: opts.postId || 1,
+        pose: opts.pose,
+        variant: opts.variant,
+        detailShot: opts.detailShot,
+        contentType: opts.contentType || "post",
+        outputDir: opts.outputDir,
+        aspectRatio: opts.aspectRatio,
+      });
+      console.log("Pose from approved image:", opts.pose);
+      console.log("Product:", result.productTitle);
+      console.log("Saved", result.saved.length, "image(s) to", result.outputDir);
+      result.saved.forEach((p) => console.log("  ", p));
+      return;
+    }
+
+    const angleList = opts.angles ? opts.angles.split(",").map((a) => a.trim().toLowerCase()) : [];
+
+    if (angleList.length > 0) {
+      // Director's shoot: generate one image per angle (front, back, side) so social manager can select.
+      const outputDir = opts.outputDir || "./instagram-output";
+      const postId = opts.postId || 1;
+      const idStr = String(postId).padStart(2, "0");
+      const useDirectorsScene = String(opts.scene || "").trim().toLowerCase() === "directors";
+      const promptPrefix = useDirectorsScene ? "directors-scene" : "pro-grade";
+      const variantPrefix = useDirectorsScene ? "directors-scene" : "pro-grade";
+      const allSaved = [];
+      console.log(
+        "Director's shoot: generating",
+        angleList.length,
+        "angle(s) for post",
+        postId,
+        useDirectorsScene ? "(director's-scene detail)" : "",
+        "..."
+      );
+      for (const angle of angleList) {
+        const promptPath = path.join(outputDir, "prompts", `post-${idStr}-${promptPrefix}-${angle}.txt`);
+        if (!fs.existsSync(promptPath)) {
+          console.warn("Prompt file not found:", promptPath, "- skipping angle", angle);
+          continue;
+        }
+        const prompt = fs.readFileSync(promptPath, "utf8");
+        const result = await refineProductForInstagram(productId, {
+          ...opts,
+          prompt,
+          variant: `${variantPrefix}-${angle}`,
+        });
+        allSaved.push(...result.saved);
+        console.log("  ", angle + ":", result.saved[0] || "(no image)");
+      }
+      console.log("Product: (see above)");
+      console.log("Saved", allSaved.length, "image(s) to", path.join(outputDir, opts.contentType || "post"));
+      allSaved.forEach((p) => console.log("  ", p));
+      return;
+    }
+
     console.log("Fetching product and refining images for Instagram...");
     const result = await refineProductForInstagram(productId, opts);
     console.log("Product:", result.productTitle);

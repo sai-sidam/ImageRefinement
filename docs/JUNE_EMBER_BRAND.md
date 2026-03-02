@@ -25,6 +25,9 @@ The June & Ember mood board sets the visual foundation: **elegant, feminine, asp
 
 | Handle | What they’re known for |
 |--------|------------------------|
+| **ohpolly** | Bold, aspirational occasion wear; vibrant dresses; "Always Iconic"; confidence and statement pieces. *(Primary.)* |
+| **outcastclothing** | Trendy, party, bold statement pieces; nightlife and occasions; edgy, confident tone. *(Primary.)* |
+| **misscirclenewyork** | Glamorous, confident occasion wear; "all eyes on me"; statement dresses, NYC energy. *(Primary.)* |
 | **shoplane201** | *(Add a line if you want: e.g. clean feed, minimal product.)* |
 | **Vici** | Trend-forward, effortless chic, blogger-style styling, feminine + edgy; matching sets, occasion-based; aspirational but wearable. |
 | **amoris.la** | *(Add a line if you want.)* |
@@ -32,11 +35,9 @@ The June & Ember mood board sets the visual foundation: **elegant, feminine, asp
 | **babyboofashion** | Romantic, figure-enhancing silhouettes, mini dresses, modern tailoring; casual to semi-formal; strong collections. |
 | **talbotsofficial** | Timeless elegance, subtle glamour, sophisticated draping; evening and occasion; “know where to stop.” |
 | **hutch_design** | *(Add a line if you want.)* |
-| **ohpolly** | Bold, aspirational occasion wear; vibrant dresses; “Always Iconic”; confidence and statement pieces. |
+| **ohpolly** | Bold, aspirational occasion wear; vibrant dresses; “Always Iconic”; confidence and statement pieces. *(Primary.)* |
 | **enme_me** | *(Add a line if you want.)* |
 | **twosistersthelabel** | Timeless, whimsical, beautiful occasion wear; accessible price, quality fabrics; “feel beautiful and powerful.” |
-| **outcastclothing** | Trendy, party, bold statement pieces; nightlife and occasions; edgy, confident tone. |
-
 **Combined direction:** Occasion-focused women’s fashion; mix of **effortless chic** and **refined elegance**; trend-aware but cohesive; **accessible luxury**; strong, Instagram-ready visuals. Start with the mood board, then refine.
 
 ---

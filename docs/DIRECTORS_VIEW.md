@@ -46,21 +46,24 @@ Use this for **every** post: story → set → reference → lighting → pose, 
 
 ## Inspiration accounts → how to use them
 
+**Our primary inspiration:** **ohpolly**, **outcastclothing**, **misscirclenewyork**. Pull from their look and energy first; the Director and prompts should skew toward bold, confident occasion wear in that vein. Other accounts below are optional for variety. To reuse their posts (reference images, captions, activity, format): use per-brand folders `instagram-output/inspiration/{brand}/` and keep [INSPIRATION_FEED_AUDIT.md](INSPIRATION_FEED_AUDIT.md) updated. Add new subsections or files when you have new use cases (scalable).
+
 **Option A — Describe in the prompt (no reference image)**  
-Use the account’s style as text: e.g. *"In the style of astee_official: LA aesthetics, sleek semi-formal, clean lines, elegant interior, soft window light, full-length, confident pose."* The model replicates that feel with our product. No need to have their actual image.
+Use the account’s style as text: e.g. *"In the style of ohpolly: bold, aspirational occasion wear, confident pose, statement piece."* The model replicates that feel with our product. No need to have their actual image.
 
 **Option B — Literal copy with our product (use when you have a reference photo)**  
 Take a **literal photo** from any Instagram page (e.g. inspiration account). Save or screenshot it. The tool takes **two images**: (1) our product image, (2) that reference photo. It **copies that photo** — same composition, pose, lighting, set — then **replaces the clothing** with our dress and **changes the model's face**. You get that exact shot with our product and a new face; no need to describe the scene. Run with `--reference-path=./saved-photo.jpg` or `--reference-url=...`. See CLI help.
 
 | Handle | Style one-liner (for prompts or briefs) |
 |--------|----------------------------------------|
+| **ohpolly** | Bold, aspirational occasion wear; confidence, statement pieces. *(Primary inspiration.)* |
+| **outcastclothing** | Trendy, party, bold; nightlife and occasions; edgy, confident. *(Primary inspiration.)* |
+| **misscirclenewyork** | Glamorous, confident occasion wear; "all eyes on me"; statement dresses, NYC energy. *(Primary inspiration.)* |
 | **astee_official** | LA aesthetics, sleek semi-formal, clean lines, accessible luxury; dinners to black-tie. |
 | **talbotsofficial** | Timeless elegance, subtle glamour, sophisticated draping; evening and occasion. |
 | **Vici** | Trend-forward, effortless chic, blogger-style; feminine + edgy; aspirational but wearable. |
 | **babyboofashion** | Romantic, figure-enhancing; modern tailoring; casual to semi-formal. |
-| **ohpolly** | Bold, aspirational occasion wear; confidence, statement pieces. |
 | **twosistersthelabel** | Timeless, whimsical, beautiful occasion wear; "feel beautiful and powerful." |
-| **outcastclothing** | Trendy, party, bold; nightlife and occasions; edgy, confident. |
 
 ---
 

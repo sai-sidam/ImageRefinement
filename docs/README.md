@@ -43,6 +43,7 @@ All strategy, brand, and copy live here. Use this index to find the right doc.
 | File | Use it for |
 |------|------------|
 | [ARCHITECTURE_AND_FLOW.md](ARCHITECTURE_AND_FLOW.md) | **How the process works:** CLI → flows (generate from product, pose from approved image, refine local image). Modules (instagram, google-ai, shopify, config), prompt/output conventions, and how to add or change a flow. |
+| [ROLES_AND_INFORMATION_FLOW.md](ROLES_AND_INFORMATION_FLOW.md) | **Employees and brains:** What each role does, where they get their information from, and who/what decides (Human, Prompt, LLM, Tool). Director = Gemini 2.5 Flash for briefs; Photographer/Retoucher = image model; Editor/Social = human. |
 
 ---
 

@@ -36,6 +36,25 @@ export function imagePart(imageData, mimeType = "image/png") {
   };
 }
 
+/** Text generation for director briefs, etc. Default: 2.5 Flash. Override with env GEMINI_TEXT_MODEL if you get 404. */
+export const GEMINI_1_5_FLASH =
+  process.env.GEMINI_TEXT_MODEL || "gemini-2.5-flash";
+
+/**
+ * Generate text only using Gemini 1.5 Flash. Use for director briefs, structured copy, etc.
+ * @param {string} prompt - Full instruction and context (no image)
+ * @param {object} [options] - Optional generation config
+ * @returns {Promise<{ text: string, raw: object }>}
+ */
+export async function generateText(prompt, options = {}) {
+  const client = getClient();
+  const model = client.getGenerativeModel({ model: GEMINI_1_5_FLASH });
+  const result = await model.generateContent(prompt);
+  const response = result.response;
+  const text = response.text?.() ?? "";
+  return { text, raw: response };
+}
+
 /**
  * Refine an image using Gemini with a text prompt (e.g. improve lighting, clean background).
  * Uses gemini-1.5-flash for text/analysis; for image OUTPUT use generateImage or refineImageWithNanoBanana.
@@ -46,7 +65,7 @@ export function imagePart(imageData, mimeType = "image/png") {
  */
 export async function refineImageWithPrompt(imageData, prompt, mimeType = "image/jpeg") {
   const client = getClient();
-  const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = client.getGenerativeModel({ model: GEMINI_1_5_FLASH });
   const part = imagePart(imageData, mimeType);
   const result = await model.generateContent([prompt, part]);
   const response = result.response;

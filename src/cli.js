@@ -4,6 +4,7 @@ import path from "path";
 import { ensureConfig } from "./config.js";
 import { refineProductAltText } from "./refine.js";
 import { refineProductForInstagram, refinePoseFromImage, refineImageFromFile } from "./instagram.js";
+import { generateAndSaveDirectorBrief } from "./director-brief.js";
 import { listProducts } from "./shopify.js";
 
 const args = process.argv.slice(2);
@@ -40,6 +41,8 @@ function parseArgs(flags) {
     if (f.startsWith("--pose=")) out.pose = f.slice(7).replace(/^=/, "").toLowerCase();
     if (f === "--detail") out.detailShot = true;
     if (f.startsWith("--product-back-image=")) out.productBackImageIndex = f.slice(21).trim() || undefined;
+    if (f.startsWith("--caption=")) out.captionAngle = f.slice(10).trim() || undefined;
+    if (f.startsWith("--format=")) out.format = f.slice(9).trim().toLowerCase() || undefined;
   }
   return out;
 }
@@ -54,6 +57,8 @@ Usage:
   node src/cli.js list                     List first 10 products
   node src/cli.js alt <productId>          Suggest alt text for product's first image
   node src/cli.js alt <productId> --apply   Suggest and update alt text in Shopify
+  node src/cli.js brief <productId> --post=N   Generate director's brief (Gemini 1.5 Flash) → prompts/post-NN-directors-scene-brief.txt
+  node src/cli.js brief <productId> --post=N --caption="..." [--format=single|carousel] [--output=path]
 
   Instagram: edit product images (saved by type: post/, story/, reel/)
   node src/cli.js instagram <productId>                    Post 1, single image → post/post_01_slide-01_*.png
@@ -80,6 +85,25 @@ Setup:
   }
 
   ensureConfig();
+
+  if (command === "brief") {
+    const productId = args[1];
+    if (!productId) {
+      console.error("Usage: node src/cli.js brief <productId> --post=N [--caption=\"...\"] [--format=single|carousel] [--output=dir]");
+      process.exit(1);
+    }
+    const opts = parseArgs(args.slice(2));
+    const result = await generateAndSaveDirectorBrief(productId, {
+      postId: opts.postId || 1,
+      captionAngle: opts.captionAngle,
+      format: opts.format,
+      outputDir: opts.outputDir || "./instagram-output",
+    });
+    console.log("Director's brief (Gemini 1.5 Flash)");
+    console.log("Product:", result.productTitle);
+    console.log("Saved:", result.savedPath);
+    return;
+  }
 
   if (command === "list") {
     const products = await listProducts(10);

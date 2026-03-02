@@ -1,0 +1,15 @@
+Professional fashion-photography standard. Refine this product image so the model is placed in a full director's scene that fits and complements this dress. The dress and the environment must feel like they belong together.
+
+KEEP THE GARMENT EXACTLY AS IS: Do not change the dress's color, pattern, fabric, or design. This is a Contrast Mini Cami Dress; show it as designed with its exact look.
+
+THIS POST MUST LOOK DIFFERENT FROM POST 1 AND POST 2. Do NOT use: ornate mirror, platform/pedestal, clothing rack, sheer curtains (Post 1). Do NOT use: lobby couch, armchair, side table, potted plant by window, same warm carpet or wood floor (Post 2). For Post 3 use a DIFFERENT type of place — e.g. white plaster or light stone wall, terrazzo or tile floor, or outdoor terrace with stone and greenery; or a minimal room with different furniture and materials. Different shapes, different textures, different mood. The feed must not repeat the same room.
+
+COMPOSITION AND RATIO: The model must NOT dominate the frame. The environment must have clear presence — we should see the space, the walls, the floor. Scale the figure so she is IN the room, not filling it. Show enough background that the place feels real. Do not make the model oversized relative to the background.
+
+GENERATE THIS ENVIRONMENT:
+- Setting: A distinct place that fits "put-together in 10 minutes" — e.g. white or plaster room with terrazzo/tile, or outdoor terrace with stone and plants, or minimal interior with different furniture. No mirror like Post 1, no couch/plant combo like Post 2. Real place, specific materials.
+- Lighting: Soft, even, same light on dress and environment. Natural, balanced; do not over-warm.
+- Model: Natural pose. DETAIL shot — crop at shoulders or show garment only; NO FACE visible. Focus on the dress. She is in the space; the space is visible around her (she is not oversized). Full-length or mid-length so the dress is the hero but the room has presence.
+- Mood: Easy, put-together. June & Ember aesthetic. Preserve original product colors 100%.
+
+Output: One image. Sharp, high-resolution. Detail shot, no face. Model and environment in balanced proportion — not the same curtains/carpet/plant as other posts. Preserve original product colors 100%.

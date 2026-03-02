@@ -1,0 +1,15 @@
+Professional fashion-photography standard. Refine this product image so the model is placed in a full director's scene that fits and complements this dress. The dress and the environment must feel like they belong together — same atmosphere, same story.
+
+KEEP THE DRESS EXACTLY AS IS: Do not change the garment's color, pattern, fabric, or design. This is a Backless Wide Strap Maxi Dress; show it at full length with its exact look.
+
+GENERATE THIS ENVIRONMENT (director's view — same level of detail as a high-end boutique/dressing room reference):
+- Setting: High-end boutique fitting room or dressing area. Elegant, aspirational, real place.
+- Mirror: A large, floor-length mirror with an ornate, antique-style gold or bronze frame (carved, decorative). The mirror can show the model's reflection so we see the dress from another angle. The reflection must show the same dress.
+- Platform: The model stands on a low, circular platform or pedestal in a light cream, beige, or off-white finish. She is slightly elevated, the focus of the frame.
+- Clothing rack: To one side (e.g. right), a clothing rack filled with many dresses on hangers — variety of styles and colors (pastels, neutrals, some sequined or delicate fabrics). This gives the "boutique" story and depth.
+- Walls and backdrop: Textured element (e.g. light brick, soft plaster, or warm neutral wall). Optional soft sheer curtains or drapery for diffused light. Warm, inviting, not cold.
+- Lighting: Soft, even, professional. No harsh shadows. Highlights the dress and the model; same light on the environment so everything feels coherent. Subtle warmth (June & Ember: warm neutrals). The dress and the scene are lit by the same light.
+- Model: Natural, confident pose — e.g. standing with one hand touching the mirror frame, or arms relaxed, or a slight turn. She is at ease in the space. Include her face; natural expression. Hair: long, natural movement or soft waves, styled so it fits the scene (e.g. over shoulders). Shoes: elegant heels (e.g. silver strappy sandals or similar) visible if the frame shows feet. Her look and the environment must feel cohesive with this dress (elegant maxi, occasion wear).
+- Mood: The story is "trying on something special" or "moment in the boutique" — aspirational, detailed, director's view. Every element (mirror, platform, rack, dress, heels, hair) works together. The atmosphere complements the dress; the dress belongs in this scene.
+
+Output: One image. Same quality and level of detail as a pro boutique/dressing room shoot: sharp, high-resolution, natural fashion photography. No flat lighting, no pasted-in look, no plastic skin. June & Ember aesthetic. Preserve original product colors 100%.

@@ -1,0 +1,11 @@
+Director's scene for Post 3 — same quality bar, DIFFERENT set. Single image, DETAIL (no face).
+
+POST 3 PRODUCT: Contrast Mini Cami Dress. Caption: "The kind of piece you reach for when you want to feel put-together in 10 minutes."
+
+SET VARIETY (mandatory): Post 3 must NOT look like Post 1 or 2. No mirror/platform/curtains (Post 1). No lobby couch/armchair/plant/window (Post 2). Use a different type of place: e.g. white plaster or stone wall, terrazzo or tile floor, outdoor terrace with stone and greenery, or minimal room with different furniture. Different materials and mood.
+
+RATIO: Model must not dominate the frame. Environment has presence — we see the space. She is in the room, not filling it.
+
+FORMAT: Detail — crop at shoulders or garment only; no face. Focus on dress; room still visible and balanced in scale.
+
+POSE VARIATIONS (carousel — use --from-image --pose=back|side --detail): (1) Dress consistency: garment must be identical across all slides — same color, pattern, cut, length, straps; only angle changes. (2) Back: model can look over her shoulder toward camera (posing for camera, still showing back of dress). (3) Side: same scale as slide 1 and 2 — model not oversized, environment has presence. (4) Same room in every slide. See docs/DIRECTORS_SCENE_STANDARD.md "Detail-shot carousel".

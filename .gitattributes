@@ -1,0 +1,5 @@
+# Git LFS – images in instagram-output (and anywhere else) stored in LFS
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text

@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { ensureConfig } from "./config.js";
 import { refineProductAltText } from "./refine.js";
-import { refineProductForInstagram, refinePoseFromImage } from "./instagram.js";
+import { refineProductForInstagram, refinePoseFromImage, refineImageFromFile } from "./instagram.js";
 import { listProducts } from "./shopify.js";
 
 const args = process.argv.slice(2);
@@ -39,6 +39,7 @@ function parseArgs(flags) {
     if (f.startsWith("--from-image=")) out.fromImage = f.slice(13).replace(/^=/, "");
     if (f.startsWith("--pose=")) out.pose = f.slice(7).replace(/^=/, "").toLowerCase();
     if (f === "--detail") out.detailShot = true;
+    if (f.startsWith("--product-back-image=")) out.productBackImageIndex = f.slice(21).trim() || undefined;
   }
   return out;
 }
@@ -120,11 +121,30 @@ Setup:
         pose: opts.pose,
         variant: opts.variant,
         detailShot: opts.detailShot,
+        productBackImageIndex: opts.productBackImageIndex,
         contentType: opts.contentType || "post",
         outputDir: opts.outputDir,
         aspectRatio: opts.aspectRatio,
       });
       console.log("Pose from approved image:", opts.pose);
+      console.log("Product:", result.productTitle);
+      console.log("Saved", result.saved.length, "image(s) to", result.outputDir);
+      result.saved.forEach((p) => console.log("  ", p));
+      return;
+    }
+
+    // Refine a local image with a prompt (e.g. director's-scene). Same product/post for filename and optional prompt file.
+    if (opts.fromImage && !opts.pose) {
+      const result = await refineImageFromFile(opts.fromImage, productId, {
+        postId: opts.postId || 1,
+        scene: opts.scene,
+        prompt: opts.prompt,
+        variant: opts.variant || "directors-scene-refined",
+        contentType: opts.contentType || "post",
+        outputDir: opts.outputDir,
+        aspectRatio: opts.aspectRatio,
+      });
+      console.log("Refined image with director's-scene prompt");
       console.log("Product:", result.productTitle);
       console.log("Saved", result.saved.length, "image(s) to", result.outputDir);
       result.saved.forEach((p) => console.log("  ", p));

@@ -159,7 +159,7 @@ export async function refineImageFromFile(imagePath, productId, options = {}) {
     throw new Error(`Image file not found: ${resolvedPath}`);
   }
   const imageBytes = fs.readFileSync(resolvedPath);
-  const mime = "image/png";
+  const mime = resolvedPath.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg";
   const result = await refineImageWithNanoBanana(
     imageBytes,
     prompt,

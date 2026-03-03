@@ -79,7 +79,7 @@ On a real shoot, the director has a **story**; the photographer captures **many*
 
 1. **Director's shot list per product:** At least **front**, **back**, and **side** (or three-quarter) so the dress is shown from multiple angles — like a real lookbook or editorial.
 2. **Generate the set:** Use `--angles=front,back,side` so the tool produces one image per angle from the same story/set/lighting. Prompts live in `instagram-output/prompts/post-{id}-pro-grade-{angle}.txt`.
-3. **Social manager selects:** From the generated set (and any other variants), choose which image(s) to use for the post — e.g. one hero for Post 1, or a carousel of front + back + detail.
+3. **Social manager selects:** From the generated set (and any other variants), choose which image(s) to use for the post. **Default = carousel** (slide 1 hero, then front + back + detail). Single image only by exception.
 
 **Command (Post 1):**  
 `npm run refine -- instagram 8560310976600 --post=1 --type=post --style=juneember --angles=front,back,side`
@@ -89,7 +89,7 @@ On a real shoot, the director has a **story**; the photographer captures **many*
 `post_01_slide-01_backless-wide-strap-maxi-dress_vpro-grade-back.png`  
 `post_01_slide-01_backless-wide-strap-maxi-dress_vpro-grade-side.png`
 
-Then open [FIRST_POST_READY.md](../instagram-output/FIRST_POST_READY.md) or the Post 1 section in [ALL_POSTS_READY.md](../instagram-output/ALL_POSTS_READY.md) and **pick which file to upload** for the first post (or use in a carousel).
+Then open [FIRST_POST_READY.md](../instagram-output/FIRST_POST_READY.md) or the Post 1 section in [ALL_POSTS_READY.md](../instagram-output/ALL_POSTS_READY.md) and **pick which files to upload** for the post — carousel (slide 1 hero + slide 2–3 detail) by default.
 
 ---
 

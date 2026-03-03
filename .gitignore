@@ -5,4 +5,5 @@ node_modules/
 dist/
 output/
 # instagram-output/ now tracked with Git LFS (see .gitattributes)
+.rag/
 *.local

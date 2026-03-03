@@ -26,11 +26,11 @@ const REFERENCE_ACCOUNTS = [
 
 /**
  * Build the prompt for Gemini 1.5 Flash to generate a director's brief.
- * @param {object} context - { productTitle, postId, captionAngle?, format? }
+ * @param {object} context - { productTitle, postId, captionAngle?, format?, retrievedContext? }
  * @returns {string}
  */
 function buildDirectorBriefPrompt(context) {
-  const { productTitle, postId, captionAngle, format } = context;
+  const { productTitle, postId, captionAngle, format, retrievedContext } = context;
   const setsList = SETS_ALREADY_USED.join("\n- ");
   const refList = REFERENCE_ACCOUNTS.join("\n- ");
 
@@ -40,6 +40,8 @@ function buildDirectorBriefPrompt(context) {
 **Post number:** ${postId}
 ${captionAngle ? `**Caption angle (use to inform story/mood):** ${captionAngle}` : ""}
 ${format ? `**Format:** ${format} (single image = one hero shot; carousel = scene must support multiple angles).` : ""}
+
+${retrievedContext ? `**Retrieved context (internal standards, prior notes, exemplars):**\n${retrievedContext}\n` : ""}
 
 **Set variety (mandatory):** Each post must look distinctly different. These sets are ALREADY USED — do NOT reuse them. Pick a NEW type of place.
 - ${setsList}
@@ -85,7 +87,7 @@ Do not add any other sections. Output only the brief text, no preamble.`;
  */
 export async function generateDirectorBrief(productId, options = {}) {
   ensureConfig();
-  const { postId = 1, captionAngle, format } = options;
+  const { postId = 1, captionAngle, format, retrievedContext } = options;
 
   const product = await getProduct(productId);
   const productTitle = product?.title ?? "Unknown product";
@@ -95,6 +97,7 @@ export async function generateDirectorBrief(productId, options = {}) {
     postId,
     captionAngle,
     format,
+    retrievedContext,
   });
 
   const { text } = await generateText(prompt);

@@ -45,17 +45,15 @@ So: one approved image = the “scene lock.” Further poses are **pose-only var
 
 ---
 
-## Single image vs carousel — scene suitability (Post 2 learnings)
+## Default: carousel (scene suitability)
 
-**Decision up front:** Whether a post is **single image** or **carousel** is decided **before** we start generation. We do not decide after the fact; we plan it, then generate accordingly.
+**All posts are planned as carousels.** We decide the format before we start generation. Default = carousel (slide 1 hero with face, slides 2–3 same scene, back/side or detail). Single image only when there is a stated exception.
 
-**When we plan a carousel:** We choose a scene and brief that support multiple angles from the start (e.g. mirror; standing by window; walking; detail shot in a room that allows back/side). The first image is approved with that in mind — same room must work for slide 2 and 3.
+**When we plan a carousel (every post):** We choose a scene and brief that support multiple angles from the start (e.g. mirror; standing by window; walking; detail shot in a room that allows back/side). The first image is approved with that in mind — same room must work for slide 2 and 3.
 
-**When we plan a single image:** We may use a scene that is optimized for one strong hero moment (e.g. seated on couch, one pose). We do not add back/side later; the post is single by design.
+**Lesson from Post 2:** Post 2 was once planned as single. The approved front = model seated on couch, lobby/lounge. We later tried to add a back shot. Problems: (1) No natural story reason for her to turn; (2) Generating back from scratch gave a different room, felt AI; (3) Editing the front to "pose only" caused artifacts. **Conclusion:** That scene was not suitable for a back pose. So we now **plan every post as carousel** and choose scenes that support back/side before generating the first image. We do not add back/side after the fact to a single-hero-only scene.
 
-**Why (from Post 2):** Post 2 was planned as single. The approved front = model seated on couch, lobby/lounge. We later tried to add a back shot. Problems: (1) No natural story reason for her to turn; (2) Generating back from scratch gave a different room, felt AI; (3) Editing the front to "pose only" caused artifacts. **Conclusion:** That scene was not suitable for a back pose — and we had already decided single, so we kept it. For any post planned as carousel, choose a scene that supports back/side before generating the first image.
-
-**Process reminder:** When planning the post, decide single vs carousel first. When approving the first image for a carousel, confirm the scene supports a second angle (story reason, same room). If the scene is a strong single-hero only, the post should have been planned as single image.
+**Process reminder:** Plan carousel first. When approving slide 1, confirm the scene supports a second angle (story reason, same room). If we ever need a single-image exception, the scene can be one strong hero only — but default is always carousel.
 
 ---
 
@@ -88,7 +86,7 @@ Reuse this flow for any future post where the back slide must match the product�
 
 - **Final image:** `post_01_slide-01_backless-wide-strap-maxi-dress_vdirectors-scene-front.png`
 - **Product:** Backless Wide Strap Maxi Dress
-- **Format:** Single image for Post 1 (no carousel). Strong intro: face + front of dress, dresses on hangers visible.
+- **Format:** Published as single image in the past. **Going forward, all posts (including first) = carousel** (slide 1 hero with face, then detail). Strong intro: face + front of dress; add slides 2–3 (back/detail) for new posts.
 - **Publish:** See [FIRST_POST_READY.md](../instagram-output/FIRST_POST_READY.md).
 
 ---
@@ -112,7 +110,7 @@ Input = approved image path. Instruction = same scene, same dress, change only p
 
 - **Quality bar:** Director's-scene level (full environment, story, same light, real place) for every post. Bar is that high; the set (location/props) can differ per post. Finalized.
 - **Workflow:** One image approved first; additional poses = send approved image to LLM, change only pose. Finalized.
-- **Single vs carousel:** Decided before we start generation. Plan single when the scene is one strong hero moment (e.g. seated on couch); plan carousel when the scene supports multiple angles (mirror, window, walking, detail in same room). See "Single image vs carousel — scene suitability" above.
-- **Post 1:** Final image = directors-scene-front. Set used for Post 1 = boutique (mirror, platform, hangers, curtains); that set was for this post only. Finalized.
-- **Post 2:** Single image only (front). Scene was not suitable for back; we do not repeat the mistake. Finalized.
+- **Default = carousel:** All posts are planned as carousels. Choose a scene that supports multiple angles (mirror, window, walking, detail in same room). See "Default: carousel (scene suitability)" above. Single image only by stated exception.
+- **Post 1:** Final image = directors-scene-front. Set used for Post 1 = boutique (mirror, platform, hangers, curtains); that set was for this post only. Published as single historically; new posts = carousel.
+- **Post 2:** Executed as single (front) in the past; scene was not suitable for back. Going forward we plan carousels and pick scene suitability up front. Finalized.
 - **Post 3 / detail carousel:** When scene supports it, use --detail for back/side. Reasoning in prompt: dress identical across slides; back = look over shoulder; side = same scale; same room. See "Detail-shot carousel" above. If the generated back doesn’t match the product, use **product back reference**: `--product-back-image=<index>` or `--product-back-image=2,4` (comma-separated) so the model copies the real back from Shopify product image(s).

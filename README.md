@@ -58,6 +58,10 @@ npm run refine -- alt <productId>
 
 # Suggest and update alt text in Shopify
 npm run refine -- alt <productId> --apply
+
+# (Optional) RAG: index internal docs/prompts, then query
+npm run refine -- rag index
+npm run refine -- rag query "What is the director's-scene standard?"
 ```
 
 ### Instagram workflow

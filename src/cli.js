@@ -6,6 +6,7 @@ import { refineProductAltText } from "./refine.js";
 import { refineProductForInstagram, refinePoseFromImage, refineImageFromFile } from "./instagram.js";
 import { generateAndSaveDirectorBrief } from "./director-brief.js";
 import { listProducts } from "./shopify.js";
+import { runRagIndex, runRagQuery } from "./rag/index.js";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -16,6 +17,7 @@ function parseArgs(flags) {
     const f = flags[i];
     if (f === "--apply") out.apply = true;
     if (f === "--all") out.allImages = true;
+    if (f === "--rag") out.rag = true;
     if (f.startsWith("--angles=")) out.angles = f.slice(9);
     if (f.startsWith("--aspect=")) out.aspectRatio = f.slice(9);
     if (f.startsWith("--output=")) out.outputDir = f.slice(9);
@@ -23,6 +25,15 @@ function parseArgs(flags) {
     if (f.startsWith("--style=")) out.style = f.slice(8);
     if (f.startsWith("--type=")) out.contentType = f.slice(7);
     if (f.startsWith("--post=")) out.postId = parseInt(f.slice(7), 10);
+    if (f.startsWith("--paths=")) out.paths = f.slice(8);
+    if (f.startsWith("--index=")) out.indexPath = f.slice(8);
+    if (f.startsWith("--k=")) out.k = parseInt(f.slice(4), 10);
+    if (f.startsWith("--model=")) out.model = f.slice(8);
+    if (f.startsWith("--max-chars=")) out.maxChars = parseInt(f.slice(12), 10);
+    if (f.startsWith("--overlap-lines=")) out.overlapLines = parseInt(f.slice(16), 10);
+    if (f.startsWith("--rag-index=")) out.ragIndexPath = f.slice(12);
+    if (f.startsWith("--rag-k=")) out.ragK = parseInt(f.slice(8), 10);
+    if (f.startsWith("--agent=")) out.agent = f.slice(8).trim().toLowerCase();
     if (f.startsWith("--prompt=")) {
       let v = f.slice(9);
       if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1, -1);
@@ -59,6 +70,7 @@ Usage:
   node src/cli.js alt <productId> --apply   Suggest and update alt text in Shopify
   node src/cli.js brief <productId> --post=N   Generate director's brief (Gemini 1.5 Flash) → prompts/post-NN-directors-scene-brief.txt
   node src/cli.js brief <productId> --post=N --caption="..." [--format=single|carousel] [--output=path]
+  node src/cli.js brief <productId> --post=N --rag [--rag-index=.rag/index.json] [--rag-k=6]  (optional) retrieve context into brief
 
   Instagram: edit product images (saved by type: post/, story/, reel/)
   node src/cli.js instagram <productId>                    Post 1, single image → post/post_01_slide-01_*.png
@@ -75,6 +87,10 @@ Usage:
   node src/cli.js instagram <productId> --post=3 --from-image=path/to/detail.png --pose=back --detail   Detail shot: same room, show back of dress (no face). Use --pose=side for side detail.
   Naming: {type}_{id}_slide-{nn}_{slug}.png or ..._v{variant}.png. Director's view: docs/DIRECTORS_VIEW.md
 
+RAG (retrieval-augmented generation): index docs/prompts and query relevant context
+  node src/cli.js rag index [--paths=docs,instagram-output/prompts,instagram-output] [--index=.rag/index.json] [--model=gemini-embedding-001]
+  node src/cli.js rag query "<question>" [--index=.rag/index.json] [--k=6] [--agent=smm|director]
+
 Setup:
   Copy .env.example to .env and set:
   - GOOGLE_AI_STUDIO_API_KEY (from https://aistudio.google.com/apikey)
@@ -84,20 +100,88 @@ Setup:
     return;
   }
 
-  ensureConfig();
+  if (command === "rag") {
+    const sub = args[1];
+    const opts = parseArgs(args.slice(2));
+
+    if (!sub || sub === "help" || sub === "-h" || sub === "--help") {
+      console.log(`RAG commands:
+  node src/cli.js rag index [--paths=docs,instagram-output/prompts,instagram-output] [--index=.rag/index.json] [--model=gemini-embedding-001] [--max-chars=1800] [--overlap-lines=8]
+  node src/cli.js rag query "<question>" [--index=.rag/index.json] [--k=6]`);
+      return;
+    }
+
+    if (sub === "index") {
+      const roots = opts.paths ? opts.paths.split(",").map((p) => p.trim()).filter(Boolean) : undefined;
+      const { indexPath, indexData } = await runRagIndex({
+        sourceRoots: roots,
+        indexPath: opts.indexPath,
+        model: opts.model,
+        maxChars: Number.isFinite(opts.maxChars) ? opts.maxChars : undefined,
+        overlapLines: Number.isFinite(opts.overlapLines) ? opts.overlapLines : undefined,
+        log: (m) => console.log(m),
+      });
+      console.log("\nRAG index saved:", indexPath);
+      console.log("Files:", indexData.stats.files);
+      console.log("Chunks:", indexData.stats.chunks);
+      console.log("Reused chunks:", indexData.stats.reusedChunks);
+      console.log("Embedded chunks:", indexData.stats.embeddedChunks);
+      return;
+    }
+
+    if (sub === "query") {
+      const q = args[2];
+      if (!q) {
+        console.error('Usage: node src/cli.js rag query "<question>" [--index=.rag/index.json] [--k=6] [--agent=smm|director]');
+        process.exit(1);
+      }
+      const { hits, context } = await runRagQuery({
+        indexPath: opts.indexPath,
+        query: q,
+        k: opts.k,
+        model: opts.model,
+        agentId: opts.agent,
+      });
+      if (opts.agent) console.log("\nPolicy:", opts.agent);
+      console.log("\nTop hits:");
+      for (const h of hits) {
+        const rel = path.relative(process.cwd(), h.absPath);
+        console.log(`  ${h.score.toFixed(4)}  ${rel}:${h.startLine}-${h.endLine}`);
+      }
+      console.log("\n---\n\nRetrieved context:\n");
+      console.log(context);
+      return;
+    }
+
+    console.error("Unknown rag subcommand:", sub);
+    process.exit(1);
+  }
 
   if (command === "brief") {
+    ensureConfig();
     const productId = args[1];
     if (!productId) {
       console.error("Usage: node src/cli.js brief <productId> --post=N [--caption=\"...\"] [--format=single|carousel] [--output=dir]");
       process.exit(1);
     }
     const opts = parseArgs(args.slice(2));
+    let retrievedContext = undefined;
+    if (opts.rag) {
+      const taskQuery = `Product: ${productId}. Post: ${opts.postId || 1}. Format: ${opts.format || ""}. Caption angle: ${opts.captionAngle || ""}. Retrieve the most relevant standards and examples for this brief.`;
+      const ragRes = await runRagQuery({
+        indexPath: opts.ragIndexPath,
+        query: taskQuery,
+        k: opts.ragK,
+        agentId: "director",
+      });
+      retrievedContext = ragRes.context;
+    }
     const result = await generateAndSaveDirectorBrief(productId, {
       postId: opts.postId || 1,
       captionAngle: opts.captionAngle,
       format: opts.format,
       outputDir: opts.outputDir || "./instagram-output",
+      retrievedContext,
     });
     console.log("Director's brief (Gemini 1.5 Flash)");
     console.log("Product:", result.productTitle);
@@ -106,6 +190,7 @@ Setup:
   }
 
   if (command === "list") {
+    ensureConfig();
     const products = await listProducts(10);
     console.log("Products (first 10):\n");
     for (const p of products) {
@@ -115,6 +200,7 @@ Setup:
   }
 
   if (command === "alt") {
+    ensureConfig();
     const productId = args[1];
     const apply = args.includes("--apply");
     if (!productId) {
@@ -131,6 +217,7 @@ Setup:
   }
 
   if (command === "instagram") {
+    ensureConfig();
     const productId = args[1];
     if (!productId) {
       console.error("Usage: node src/cli.js instagram <productId> [--all] [--aspect=4:5] [--output=dir] [--angles=front,back,side]");

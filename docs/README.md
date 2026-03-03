@@ -18,6 +18,7 @@ All strategy, brand, and copy live here. Use this index to find the right doc.
 | [DIRECTORS_VIEW.md](DIRECTORS_VIEW.md) | **Director's view:** story, set, references, brief template. One part of the flow; see BRIEF_TO_POST_FLOW for all roles. |
 | [DIRECTORS_SCENE_STANDARD.md](DIRECTORS_SCENE_STANDARD.md) | **Director's-scene standard:** Quality bar for every post (full environment, story, same light); set can differ per post. Approved-image workflow for pose variants. Post 1 = directors-scene-front (boutique set for that post only). |
 | [POST_1_PROFESSIONAL_BRIEF.md](POST_1_PROFESSIONAL_BRIEF.md) | **Post 1 quality bar:** Director- and photographer-level standard (lighting, set, model, garment, technical). Use this + reference-image path for pro-grade result. |
+| [INSTAGRAM_RESEARCH_MULTI_PERSPECTIVE.md](INSTAGRAM_RESEARCH_MULTI_PERSPECTIVE.md) | **Research synthesis:** How clothing brands maintain Instagram, success stories (e.g. Oh Polly), business KPIs/funnel, early-stage goals, algorithm, occasion-wear niche, mistakes to avoid. Use for SMM and goal-setting. |
 
 ---
 
@@ -44,6 +45,8 @@ All strategy, brand, and copy live here. Use this index to find the right doc.
 |------|------------|
 | [ARCHITECTURE_AND_FLOW.md](ARCHITECTURE_AND_FLOW.md) | **How the process works:** CLI → flows (generate from product, pose from approved image, refine local image). Modules (instagram, google-ai, shopify, config), prompt/output conventions, and how to add or change a flow. |
 | [ROLES_AND_INFORMATION_FLOW.md](ROLES_AND_INFORMATION_FLOW.md) | **Employees and brains:** What each role does, where they get their information from, and who/what decides (Human, Prompt, LLM, Tool). Director = Gemini 2.5 Flash for briefs; Photographer/Retoucher = image model; Editor/Social = human. |
+| [RAG.md](RAG.md) | **RAG layer:** Index internal docs/prompts and retrieve relevant context for agents. |
+| [RAG_AGENT_POLICIES.md](RAG_AGENT_POLICIES.md) | **Per-agent retrieval:** What SMM and Director may retrieve (sources, always-on, query-specific). Use `rag query --agent=smm` or `--agent=director` to apply. |
 
 ---
 

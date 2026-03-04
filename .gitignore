@@ -4,5 +4,6 @@ node_modules/
 .DS_Store
 dist/
 output/
-instagram-output/
+# instagram-output/ now tracked with Git LFS (see .gitattributes)
+.rag/
 *.local

@@ -76,8 +76,16 @@ const FRAME_HERO_SUFFIX =
 const FRAME_DETAIL_SUFFIX =
   " Crop at shoulders or show garment only; no face visible. Focus entirely on the outfit and fabric.";
 
+/** When using a director's brief as customPrompt, append this so the image feels real, not AI-posed. */
+const NATURAL_PHOTOGRAPHY_REINFORCEMENT =
+  " Critical: this must look like real fashion photography — a candid moment, not a model posing for the camera. One clear directional light source; natural skin texture (no plastic or over-smooth); she is in the middle of the activity, not staring at the lens. Avoid flat lighting and perfect symmetry.";
+
 function getPromptForStyle(style, customPrompt) {
-  if (customPrompt) return customPrompt;
+  if (customPrompt) {
+    const looksLikeDirectorBrief =
+      customPrompt.includes("**Story**") || customPrompt.includes("**Moment**") || customPrompt.includes("Director's scene");
+    return looksLikeDirectorBrief ? customPrompt + "\n\n" + NATURAL_PHOTOGRAPHY_REINFORCEMENT : customPrompt;
+  }
   const key = String(style || "").toLowerCase().replace(/-/g, "");
   return INSTAGRAM_STYLE_PRESETS[key] || DEFAULT_INSTAGRAM_PROMPT;
 }
@@ -319,7 +327,7 @@ ONLY change the viewpoint so we see the SIDE of the outfit: camera from the side
 
 /**
  * Pose-change for DETAIL shots (no face): same room, same dress; show back or side of garment.
- * Reasoning (Post 3 — keep in prompt): (1) Dress consistency: identical garment across slides — same color, pattern, cut, length, straps; only angle changes. (2) Back: model looks over shoulder toward camera so she's still posing for camera while showing back of dress. (3) Side: same scale as other slides — model not oversized, environment has presence. (4) Same room in every slide. See docs/DIRECTORS_SCENE_STANDARD.md "Detail-shot carousel".
+ * Reasoning (Post 3 — keep in prompt): (1) Dress consistency: identical garment across slides — same color, pattern, cut, length, straps; only angle changes. (2) Back: model looks over shoulder toward camera so she's still posing for camera while showing back of dress. (3) Side: same scale as other slides — model not oversized, environment has presence. (4) Same room in every slide. See docs/DIRECTOR_BRIEF_AND_VISION.md "Detail-shot carousel".
  */
 function getPoseChangeInstructionDetail(pose, productTitle) {
   const garment = productTitle || "the garment";
@@ -348,7 +356,7 @@ In this second shot: we see the SIDE of the dress. Same scale as the first image
 
 /**
  * Generate a new pose (back or side) from an approved image. Same scene, same garment; only the model's pose changes. For carousel slide 2/3.
- * Fallback (Post 2): Not every scene supports back/side — e.g. seated on couch facing camera is great as single image but hard for same-room back. If the scene doesn't naturally support a second angle (story reason + same room), use single image; see docs/DIRECTORS_SCENE_STANDARD.md "Single image vs carousel".
+ * Fallback (Post 2): Not every scene supports back/side — e.g. seated on couch facing camera is great as single image but hard for same-room back. If the scene doesn't naturally support a second angle (story reason + same room), use single image; see docs/DIRECTOR_BRIEF_AND_VISION.md "Single image vs carousel".
  * @param {string} approvedImagePath - Path to the approved front image (e.g. post_02_..._vdirectors-scene-front.png)
  * @param {string} productId - Shopify product ID (used to get slug and title for filename and prompt)
  * @param {object} options - { postId, pose: 'back'|'side', contentType, outputDir, aspectRatio }

@@ -26,3 +26,9 @@ export function ensureConfig() {
   config.shopify.accessToken = requireEnv("SHOPIFY_ACCESS_TOKEN");
   return config;
 }
+
+/** For workflows that only need Google AI Studio (e.g. RAG indexing/query). */
+export function ensureGoogleConfig() {
+  config.google.apiKey = requireEnv("GOOGLE_AI_STUDIO_API_KEY");
+  return config;
+}

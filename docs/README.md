@@ -1,49 +1,45 @@
-# Docs — Index
+# June & Ember Documentation Index
 
-All strategy, brand, and copy live here. Use this index to find the right doc.
-
----
-
-## Strategy (how to run Instagram)
-
-| File | Use it for |
-|------|------------|
-| [CUSTOMER_AND_EMPATHY_ANGLE.md](CUSTOMER_AND_EMPATHY_ANGLE.md) | **Customer first:** Who she is, what she feels, what she wants. Empathy angle so every post speaks to *her* (moments, confidence, trust). No gap between what we make and what she needs. |
-| [NO_GAPS_CHECKLIST.md](NO_GAPS_CHECKLIST.md) | **Every angle covered:** Before shipping any post or strategy, run this checklist (customer, empathy, trust, brand, creative, quality, clarity). No stone unturned. |
-| [INSTAGRAM_GUIDE.md](INSTAGRAM_GUIDE.md) | Strategy, content types, posting frequency, hashtags, captions — how to run the account. Start here if you’re new. |
-| [SOCIAL_MEDIA_EXPERT.md](SOCIAL_MEDIA_EXPERT.md) | **Expert playbook:** content mix, schedule, face/no-face, captions, Reels, Stories, grid, calendar. One place for every decision; no guessing. |
-| [VISUAL_SYSTEM.md](VISUAL_SYSTEM.md) | Building a consistent visual system: color palette, lighting, safe zones, grid pattern, checklist. How the tool supports it. |
-| [AI_VS_NATURAL_IMAGERY.md](AI_VS_NATURAL_IMAGERY.md) | **AI-like vs natural:** what makes images feel synthetic vs real; prompt guidance so outputs stay natural (lighting, skin, warmth). |
-| [BRIEF_TO_POST_FLOW.md](BRIEF_TO_POST_FLOW.md) | **Full pipeline:** All roles from concept to post (Producer, CD, AD, Stylist, Photographer, MUA, Hair, Retoucher, Content Strategist, Social Manager, etc.). Researched list + how we map to it. Your inputs (story, set) feed the Director layer; intention = complete pipeline, not only the roles you named. |
-| [DIRECTORS_VIEW.md](DIRECTORS_VIEW.md) | **Director's view:** story, set, references, brief template. One part of the flow; see BRIEF_TO_POST_FLOW for all roles. |
-| [DIRECTORS_SCENE_STANDARD.md](DIRECTORS_SCENE_STANDARD.md) | **Director's-scene standard:** Quality bar for every post (full environment, story, same light); set can differ per post. Approved-image workflow for pose variants. Post 1 = directors-scene-front (boutique set for that post only). |
-| [POST_1_PROFESSIONAL_BRIEF.md](POST_1_PROFESSIONAL_BRIEF.md) | **Post 1 quality bar:** Director- and photographer-level standard (lighting, set, model, garment, technical). Use this + reference-image path for pro-grade result. |
+Welcome to the June & Ember documentation hub. This index provides a structured overview of our brand, strategy, creative processes, and operational workflows.
 
 ---
 
-## Brand (June & Ember)
+### 1. Brand & Identity
 
-| File | Use it for |
-|------|------------|
-| [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) | June & Ember (junenember.com) one-pager: mood board, inspiration accounts, palette, tool defaults, do-not list. |
+- [JUNE_EMBER_BRAND](JUNE_EMBER_BRAND.md) — Core brand identity, visuals, customer & empathy angle, and visual system (mood board, palette, pillars, do-not).
+- [BRAND_ASSET_MANAGEMENT](BRAND_ASSET_MANAGEMENT.md) — Where brand assets live and their types.
+- [COLLECTION_AND_CAMPAIGN_GUIDELINES](COLLECTION_AND_CAMPAIGN_GUIDELINES.md) — Guidelines for seasonal collections and campaigns.
 
----
+### 2. Strategic Vision & Guidance
 
-## Templates & copy-paste
+- [INSTAGRAM_GUIDE](INSTAGRAM_GUIDE.md) — Foundational Instagram strategy, content types, and posting basics.
+- [SOCIAL_MEDIA_EXPERT](SOCIAL_MEDIA_EXPERT.md) — Advanced SMM playbook, content mix, scheduling, research insights, A/B testing, localization.
+- [INSPIRATION_STRATEGY](INSPIRATION_STRATEGY.md) — How we find, audit, and use creative inspiration; reference workflow (current and future).
 
-| File | Use it for |
-|------|------------|
-| [VISUAL_SYSTEM_TEMPLATE.md](VISUAL_SYSTEM_TEMPLATE.md) | Blank one-pager to fill in your brand’s visual system (mood, palette, pillars, etc.). |
-| [CAPTION_AND_HASHTAG_SETS.md](CAPTION_AND_HASHTAG_SETS.md) | Copy-paste caption hooks and rotating hashtag sets (A/B/C) for June & Ember. |
+### 3. Creative Direction & AI
 
----
+- [DIRECTOR_BRIEF_AND_VISION](DIRECTOR_BRIEF_AND_VISION.md) — Director's creative brief template, vision, quality standards, and approved-image workflow for imagery.
+- [AI_CREATIVE_GUIDELINES](AI_CREATIVE_GUIDELINES.md) — Ethical and practical guidance for AI image generation, including prompting for natural imagery.
 
-## Architecture & tool
+### 4. Social Media Operations
 
-| File | Use it for |
-|------|------------|
-| [ARCHITECTURE_AND_FLOW.md](ARCHITECTURE_AND_FLOW.md) | **How the process works:** CLI → flows (generate from product, pose from approved image, refine local image). Modules (instagram, google-ai, shopify, config), prompt/output conventions, and how to add or change a flow. |
-| [ROLES_AND_INFORMATION_FLOW.md](ROLES_AND_INFORMATION_FLOW.md) | **Employees and brains:** What each role does, where they get their information from, and who/what decides (Human, Prompt, LLM, Tool). Director = Gemini 2.5 Flash for briefs; Photographer/Retoucher = image model; Editor/Social = human. |
+- [CAPTION_AND_HASHTAG_SETS](CAPTION_AND_HASHTAG_SETS.md) — Ready-to-use caption hooks and hashtag sets.
+- [NO_GAPS_CHECKLIST](NO_GAPS_CHECKLIST.md) — Pre-shipping checklist for all social media posts.
+- [SMM_PLAN_POST](SMM_PLAN_POST.md) — SMM handoff process and SMM vs Director example (Post 3).
+
+### 5. Workflow & Architecture
+
+- [OPERATIONAL_WORKFLOWS_AND_ROLES](OPERATIONAL_WORKFLOWS_AND_ROLES.md) — Roles, information flow, and brief-to-post pipeline.
+- [TECHNICAL_ARCHITECTURE_AND_FLOWS](TECHNICAL_ARCHITECTURE_AND_FLOWS.md) — Technical architecture, CLI, modules, and system flows.
+- [AI_ASSISTANT_WORKFLOW](AI_ASSISTANT_WORKFLOW.md) — Workflow for using AI assistants (Gemini, Cursor) effectively.
+- [RAG_SYSTEM_OVERVIEW](RAG_SYSTEM_OVERVIEW.md) — Overview of the RAG system for context retrieval.
+- [RAG_AGENT_POLICIES](RAG_AGENT_POLICIES.md) — Policies for RAG agent retrieval (SMM vs Director).
+- [TOOL_FEEDBACK](TOOL_FEEDBACK.md) — Process and variables for tool feedback loops.
+
+### 6. Examples & Templates
+
+- [EXAMPLE_POST_1](EXAMPLE_POST_1.md) — Post 1: brief, quality bar, and complete reasoning.
+- [TEMPLATE_VISUAL_SYSTEM_ONE_PAGER](TEMPLATE_VISUAL_SYSTEM_ONE_PAGER.md) — Blank one-page template for creating a visual system.
 
 ---
 
@@ -51,8 +47,4 @@ All strategy, brand, and copy live here. Use this index to find the right doc.
 
 - **Generated images + post plan:** [../instagram-output/](../instagram-output/) — PNGs and [ALL_POSTS_READY.md](../instagram-output/ALL_POSTS_READY.md) (post-by-post instructions).
 
----
-
-## Intention
-
-**Build June & Ember's Instagram presence** as the brand's social platform. All docs and the tool (variants, naming, director's view, pipeline, reference workflow) are subparts of that. **Reference workflow:** You can literally copy a photo from any Instagram — save it, pass as `--reference-path` — and get that same photo with our product on the model and a new face.
+**Intention:** Build June & Ember's Instagram presence as the brand's social platform. All docs and the tool support that goal.

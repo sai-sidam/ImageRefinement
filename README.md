@@ -58,6 +58,10 @@ npm run refine -- alt <productId>
 
 # Suggest and update alt text in Shopify
 npm run refine -- alt <productId> --apply
+
+# (Optional) RAG: index internal docs/prompts, then query
+npm run refine -- rag index
+npm run refine -- rag query "What is the director's-scene standard?"
 ```
 
 ### Instagram workflow
@@ -109,9 +113,8 @@ ImageRefinement/
 │   ├── README.md           # Index of all docs
 │   ├── INSTAGRAM_GUIDE.md  # How to run the account
 │   ├── SOCIAL_MEDIA_EXPERT.md  # Expert playbook (content, schedule, face/no-face)
-│   ├── VISUAL_SYSTEM.md    # Visual system (color, lighting, grid)
-│   ├── JUNE_EMBER_BRAND.md # June & Ember one-pager
-│   ├── VISUAL_SYSTEM_TEMPLATE.md  # Blank visual-system template
+│   ├── JUNE_EMBER_BRAND.md # Brand, visual system, customer & empathy
+│   ├── TEMPLATE_VISUAL_SYSTEM_ONE_PAGER.md  # Blank visual-system template
 │   └── CAPTION_AND_HASHTAG_SETS.md  # Copy-paste captions & hashtags
 ├── instagram-output/       # Generated images + post plan (see instagram-output/README.md)
 │   ├── README.md           # What this folder is for

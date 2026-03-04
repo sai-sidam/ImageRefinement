@@ -1,0 +1,13 @@
+Professional fashion-photography standard. Refine this product image so the model is placed in a full director's scene. This is the SAME moment as the front shot, but from behind: she is seated on the couch/sofa, turned toward a large window, looking out. We see her back and the back of the jumpsuit. The story is clear: she's looking out the window.
+
+KEEP THE GARMENT EXACTLY AS IS: Do not change the jumpsuit's color, pattern, fabric, or design. This is a Checkered Jumpsuit; show the BACK of it at full length with its exact look.
+
+GENERATE THIS ENVIRONMENT (same lobby/lounge as the front shot):
+- Setting: Same resort or hotel lobby, lounge — light-filled, elegant. Warm neutrals, full and layered (sofa, side table, plant, wall art or window). A large window is visible; she is turned toward it.
+- Story and pose (critical): She is SEATED on the couch or sofa. She has turned her body and head toward the window — she is looking out the window. So we see her FROM BEHIND: her back, the back of the jumpsuit, her head turned toward the window. Same moment as the front shot; we are just behind her. Do not make her stand. Her feet/shoes visible and natural (e.g. feet on the floor or tucked; same elegant shoes). No distorted or messed-up feet — natural, coherent.
+- Lighting: Same soft, even light. Natural, balanced color temperature; do not over-warm. Same light on her and the room. Window light from one side.
+- Mood: She's at ease, looking out the window. We see the back of the jumpsuit clearly. The shot has a reason: someone looking out the window. June & Ember aesthetic. Preserve original product colors 100%.
+
+Output: One image. Sharp, high-resolution, natural fashion photography. Full-length back view. Same quality as the front shot. No pasted-in look, no plastic skin, no artifacts at feet or hands.
+
+Camera: We are behind her, so the viewer sees the back of the jumpsuit. She is seated, turned toward the window. Full-length. Coherent, natural.

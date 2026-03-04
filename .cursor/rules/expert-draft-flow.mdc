@@ -1,0 +1,18 @@
+---
+description: When user asks creative/expert questions about Director or SMM guidelines, ask Gemini and show reply in chat; implement when user says so
+alwaysApply: true
+---
+
+# Expert-draft flow (Gemini at every step)
+
+- **Creative/expert questions** (e.g. "Director should do X, not Y. What do you think?" or "Isn't X supposed to be different?"): Run the expert command and **put Gemini's answer in the chat** so the user can react.
+  - Command: `node src/cli.js expert "<user's message or question>"` — add `--rag` (and optionally `--agent=director` or `--agent=smm`) to include current guidelines in the prompt.
+  - Paste the command output (Gemini's reply) into your response so the user sees it and can respond.
+- **Follow-up questions** (e.g. "isn't X in a different manner?"): Run `expert` again with the user's new message. If needed, include the previous Q&A in the message so Gemini has context (e.g. "Previous: User said ... You replied ... Now: isn't X ...").
+- **When the user says "implement" / "this is perfect" / "do it"**: Apply the decided guidelines to the codebase — update docs (e.g. DIRECTOR_BRIEF_AND_VISION.md, SMM_PLAN_POST.md), director-brief.js prompt, or other files as needed.
+
+- **Placeholders:** If the missing info is **expert/creative/strategic** → ask Gemini. If it is **user/company-specific** (user's name, actual logo file, locked hex codes, real product names, etc.) → ask the user; Gemini doesn't have those.
+
+- **When the user wants Gemini to verify or review the guidelines** (e.g. "have Gemini look at the docs" / "verify the guidelines" / "different perspective"): Run `node src/cli.js review`. This loads the key guideline docs and asks Gemini to review them (consistency, improvements, other cases, gaps). Paste Gemini's reply into the chat so the user can react; implement any changes when the user says so.
+
+See docs/AI_ASSISTANT_WORKFLOW.md for full flow.

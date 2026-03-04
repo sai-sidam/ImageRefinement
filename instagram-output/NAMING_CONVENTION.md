@@ -41,7 +41,7 @@ Everything is grouped by **type**. One post with 3 carousel images = 3 files in 
 {type}_{id}_slide-{nn}_{slug}[_v{variant}].{ext}
 ```
 
-- **type:** `post` | `story` | `reel` (reel may use same pattern for thumbnails; video file TBD)
+- **type:** `post` | `story` | `reel` (reel may use same pattern for thumbnails; video naming below)
 - **id:** 2-digit number, e.g. `01`, `02`, `12`
 - **slide:** 2-digit number, e.g. `01`, `02`, `03` (carousel = multiple slides)
 - **slug:** lowercase, hyphens, no spaces (e.g. product name or theme)
@@ -50,8 +50,8 @@ Everything is grouped by **type**. One post with 3 carousel images = 3 files in 
 
 **Reels (future):**
 
-- Video: `reel_{id}_{slug}.mp4` (one file per reel)
-- Optional thumbnail: `reel_{id}_slide-01_{slug}.png`
+- video file (mp4): YYYYMMDD_IG_REEL_VID_SHORTTITLE.mp4 (e.g., 20231026_IG_REEL_VID_AutumnGowns.mp4)
+- video thumbnail (jpg): YYYYMMDD_IG_REEL_THUMB_SHORTTITLE.jpg (e.g., 20231026_IG_REEL_THUMB_AutumnGowns.jpg)
 
 ---
 

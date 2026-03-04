@@ -58,7 +58,7 @@ npm run refine -- rag query "How do we do pose-only variations?" --k=8 --index=.
 
 ---
 
-## Using RAG inside other commands (optional)
+## Using RAG inside other commands
 
 Director brief supports an optional retrieval step:
 

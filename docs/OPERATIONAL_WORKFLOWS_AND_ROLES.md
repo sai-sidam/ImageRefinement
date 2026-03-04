@@ -1,4 +1,4 @@
-# Roles and information flow — what each employee does and where they get it from
+# Operational workflows and roles — what each role does and where they get it from
 
 Like the **Director** (who got a "brain" via Gemini 2.5 Flash for briefs), every role in our pipeline has a **job**, **inputs**, and a **brain** (who or what makes the decisions). This doc spells that out so we can see what’s human, what’s prompt/template, and what could be automated next.
 
@@ -17,7 +17,7 @@ Like the **Director** (who got a "brain" via Gemini 2.5 Flash for briefs), every
 
 | Role | What they do | Where they get information | Brain |
 |------|----------------|-----------------------------|--------|
-| **Director** (Creative Director + Art Director) | Decide story, set, concept, reference, lighting, pose for the post. Produce the **director’s brief** (text) that the next steps use. | Product title (Shopify), post number, optional caption angle, format (single/carousel), **set variety** (list of sets already used — from DIRECTORS_SCENE_STANDARD or config), **inspiration accounts** (from DIRECTORS_VIEW), **brand** (June & Ember). | **LLM** (Gemini 2.5 Flash) via `brief` command. Optional: human can edit the generated brief or write it by hand. |
+| **Director** (Creative Director + Art Director) | Decide story, set, concept, reference, lighting, pose for the post. Produce the **director’s brief** (text) that the next steps use. | Product title (Shopify), post number, optional caption angle, format (single/carousel), **set variety** (list of sets already used — from DIRECTOR_BRIEF_AND_VISION or config), **inspiration accounts** (from DIRECTOR_BRIEF_AND_VISION), **brand** (June & Ember). | **LLM** (Gemini 2.5 Flash) via `brief` command. Optional: human can edit the generated brief or write it by hand. |
 | **Stylist** (pre) | “Which garment, no changes.” In our pipeline: the product is fixed; we never swap or redesign the outfit. | Product images from **Shopify** (which look we use). Decision: “keep garment exactly.” | **Tool** (we never change garment in prompts; style presets say “preserve product 100%”). |
 | **Producer / Casting / Location scout** | In a real shoot: plan, cast, location. In our pipeline: **no separate output**. We don’t cast (we use product image + “natural model” in prompt); we don’t book locations (set is in the brief). | N/A for tool. Human can set post plan (which product per post) in ALL_POSTS_READY. | **Human** (you decide which product is Post 5, etc.). Out of scope for automation for now. |
 
@@ -93,4 +93,16 @@ Optional branch: **Pose from approved image** — approved image + pose instruct
 - **Social manager (caption):** LLM that drafts caption + hashtags per post from product + caption angle (input: product title, caption angle, CAPTION_AND_HASHTAG_SETS).
 - **Editor:** Tool that lists variants for a post and lets you mark “final” (writes ALL_POSTS_READY) — still human choice, but structured.
 
-This doc should stay in sync with [BRIEF_TO_POST_FLOW.md](BRIEF_TO_POST_FLOW.md) and [ARCHITECTURE_AND_FLOW.md](ARCHITECTURE_AND_FLOW.md). When we add or change a role’s brain (e.g. new LLM step), update this table and the summary.
+When we add or change a role's brain (e.g. new LLM step), update this table and the summary. See [TECHNICAL_ARCHITECTURE_AND_FLOWS.md](TECHNICAL_ARCHITECTURE_AND_FLOWS.md).
+
+---
+
+## Brief-to-Post Pipeline (full role list)
+
+**Primary intention:** Build June & Ember's **Instagram presence** as a social media platform for the brand. Everything in this project — pipeline, director's view, variants, naming, prompts, reference workflow — is a **subpart of that process**.
+
+**What went wrong before:** We treated "director, photographer, social manager" as the only three roles. The real pipeline involves more roles; below we list them (from research) and show how we map to them.
+
+**Pre-production:** Producer, Creative Director, Art Director, Stylist pre, Casting, Location scout / Set decorator pre. **Production:** Photographer, Photo assistant, Stylist on set, MUA, Hair, Set decorator on set, Model, BTS, Brand. **Post-production:** Retoucher, Editor. **Distribution:** Content strategist, Social media manager.
+
+Your inputs (story, set, message) feed **pre-production** (Creative Director + Art Director). We map the **concerns** of the full pipeline onto what we can control: Director = [DIRECTOR_BRIEF_AND_VISION.md](DIRECTOR_BRIEF_AND_VISION.md); Photographer = prompts and presets; Stylist = garment fixed; MUA/Hair = prompt line; Retoucher = our refinement tool; Editor = ALL_POSTS_READY; Content strategist = SOCIAL_MEDIA_EXPERT, INSTAGRAM_GUIDE; Social manager = ALL_POSTS_READY, CAPTION_AND_HASHTAG_SETS. **Post 1 full reasoning:** [EXAMPLE_POST_1.md](EXAMPLE_POST_1.md). **No gaps:** [NO_GAPS_CHECKLIST.md](NO_GAPS_CHECKLIST.md). Customer and empathy: section in [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md).g. new LLM step), update this table and the summary.

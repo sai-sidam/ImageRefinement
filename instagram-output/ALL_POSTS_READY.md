@@ -14,7 +14,7 @@ One file, every post in order. Each section has image(s), caption, hashtags, and
 | 2    | Single   | Hero (face)      | B           | Ready                |
 | 3    | Carousel  | Detail front/back/side | A           | Ready                |
 | 4    | Single    | Hero (face)      | B           | Ready               |
-| 5    | Carousel  | Hero → detail    | A           | Not yet generated   |
+| 5    | Carousel  | Hero → detail    | A           | Ready               |
 | 6    | Single    | Detail (no face) | B           | Not yet generated   |
 | 7    | Single    | Hero (face)      | A           | Not yet generated   |
 | 8    | Single    | Hero or detail   | B           | Not yet generated   |
@@ -35,7 +35,7 @@ One file, every post in order. Each section has image(s), caption, hashtags, and
 **Image (finalized)**  
 - **Use for Post 1:** [post/post_01_slide-01_backless-wide-strap-maxi-dress_vdirectors-scene-front.png](post/post_01_slide-01_backless-wide-strap-maxi-dress_vdirectors-scene-front.png) — Director's-scene front (mirror, platform, hangers, curtains, story). Face + full front of dress; strong intro image with dresses on hangers visible.
 
-**Quality bar (finalized):** Director's-scene level for every post — full environment, story, same light on dress and scene. The *set* can differ per post (Post 1 used boutique: mirror, platform, hangers, curtains; other posts can use different sets). See [DIRECTORS_SCENE_STANDARD.md](../docs/DIRECTORS_SCENE_STANDARD.md). **Approved-image workflow:** Get one image approved; for more poses (back, side), send that approved image to the LLM and change only the model’s pose so the environment stays consistent.
+**Quality bar (finalized):** Director's-scene level for every post — full environment, story, same light on dress and scene. The *set* can differ per post (Post 1 used boutique: mirror, platform, hangers, curtains; other posts can use different sets). See [DIRECTOR_BRIEF_AND_VISION.md](../docs/DIRECTOR_BRIEF_AND_VISION.md). **Approved-image workflow:** Get one image approved; for more poses (back, side), send that approved image to the LLM and change only the model’s pose so the environment stays consistent.
 
 **Other variants (reference only; not used for Post 1)**
 | Label | File | Notes |
@@ -63,7 +63,7 @@ June & Ember is here — elegant, effortless pieces for the moments that matter.
 
 **Format:** Single image (hero, with face)
 
-**Quality bar:** Same director's-scene level as Post 1; set = lobby/lounge (not boutique). See [DIRECTORS_SCENE_STANDARD.md](../docs/DIRECTORS_SCENE_STANDARD.md). Prompts: [post-02-directors-scene-brief.txt](prompts/post-02-directors-scene-brief.txt), [post-02-directors-scene-front.txt](prompts/post-02-directors-scene-front.txt).
+**Quality bar:** Same director's-scene level as Post 1; set = lobby/lounge (not boutique). See [DIRECTOR_BRIEF_AND_VISION.md](../docs/DIRECTOR_BRIEF_AND_VISION.md). Prompts: [post-02-directors-scene-brief.txt](prompts/post-02-directors-scene-brief.txt), [post-02-directors-scene-front.txt](prompts/post-02-directors-scene-front.txt).
 
 **Image**
 - **Use for Post 2:** [post/post_02_slide-01_checkered-print-crew-neck-wide-leg-jumpsuit_vdirectors-scene-front.png](post/post_02_slide-01_checkered-print-crew-neck-wide-leg-jumpsuit_vdirectors-scene-front.png) — Director's-scene front (lobby/lounge). Face + full front of jumpsuit.
@@ -88,7 +88,7 @@ This one goes from brunch to evening without a single change. Tap the link to sh
 
 **Format:** Carousel (3 slides) — detail front, back, side (no face; same room)
 
-**Quality bar:** Same director's-scene level; set = distinct (white/plaster or terrazzo; not same as Post 1 or 2). See [DIRECTORS_SCENE_STANDARD.md](../docs/DIRECTORS_SCENE_STANDARD.md). Prompts: [post-03-directors-scene-brief.txt](prompts/post-03-directors-scene-brief.txt), [post-03-directors-scene-detail.txt](prompts/post-03-directors-scene-detail.txt).
+**Quality bar:** Same director's-scene level; set = distinct (white/plaster or terrazzo; not same as Post 1 or 2). See [DIRECTOR_BRIEF_AND_VISION.md](../docs/DIRECTOR_BRIEF_AND_VISION.md). Prompts: [post-03-directors-scene-brief.txt](prompts/post-03-directors-scene-brief.txt), [post-03-directors-scene-detail.txt](prompts/post-03-directors-scene-detail.txt).
 
 **Images (upload in order)**
 | Slide | File | Notes |
@@ -120,7 +120,7 @@ The kind of piece you reach for when you want to feel put-together in 10 minutes
 
 **Format:** Single image (hero, with face)
 
-**Quality bar:** Same director's-scene level as Posts 1–3; set = light-filled corridor/arched interior (not boutique, lobby, or Post 3’s terrazzo room). See [DIRECTORS_SCENE_STANDARD.md](../docs/DIRECTORS_SCENE_STANDARD.md). Prompts: [post-04-directors-scene-brief.txt](prompts/post-04-directors-scene-brief.txt), [post-04-directors-scene-front.txt](prompts/post-04-directors-scene-front.txt).
+**Quality bar:** Same director's-scene level as Posts 1–3; set = light-filled corridor/arched interior (not boutique, lobby, or Post 3’s terrazzo room). See [DIRECTOR_BRIEF_AND_VISION.md](../docs/DIRECTOR_BRIEF_AND_VISION.md). Prompts: [post-04-directors-scene-brief.txt](prompts/post-04-directors-scene-brief.txt), [post-04-directors-scene-front.txt](prompts/post-04-directors-scene-front.txt).
 
 **Final image (finalized)**  
 - **Use for Post 4:** [post/post_04_slide-01_crisscross-halter-neck-jumpsuit_vdirectors-scene-front.png](post/post_04_slide-01_crisscross-halter-neck-jumpsuit_vdirectors-scene-front.png) — Director's-scene front (corridor/arched interior). Face + full front of Crisscross Halter Neck Jumpsuit. This is the only image to publish for Post 4.
@@ -145,15 +145,16 @@ We keep coming back to this cut for a reason. Tap the link to shop.
 
 **Format:** Carousel (2–3 images: hero then detail)
 
-**Images**
-- **Generate:** `npm run refine -- instagram 8556630311000 --all --style=juneember --post=5 --type=post` (add `--variant=02` to keep variants)
-
-**Variants** (per slide: slide-01, slide-02, slide-03; add variant column if you use `--variant=`)
+**Images (upload in order)**
 | Slide | File | Notes |
 |-------|------|--------|
-| 01 | post/post_05_slide-01_floral-lace-halter-*.png *(not yet generated)* | Hero |
-| 02 | post/post_05_slide-02_*.png *(not yet generated)* | Detail |
-| 03 | post/post_05_slide-03_*.png *(optional)* | Detail |
+| 1 | [post/post_05_slide-01_floral-lace-halter-deep-v-neck-bodycon-dress_vdirectors-scene.png](post/post_05_slide-01_floral-lace-halter-deep-v-neck-bodycon-dress_vdirectors-scene.png) | **Use this:** Hero with concrete moment (walking to railing, turning to view; not posing for camera). Director's brief + natural-photography reinforcement. |
+| 2 | [post/post_05_slide-02_floral-lace-halter-deep-v-neck-bodycon-dress.png](post/post_05_slide-02_floral-lace-halter-deep-v-neck-bodycon-dress.png) | Detail |
+| 3 | [post/post_05_slide-03_floral-lace-halter-deep-v-neck-bodycon-dress.png](post/post_05_slide-03_floral-lace-halter-deep-v-neck-bodycon-dress.png) | Detail |
+
+**Regenerate hero (director's brief + moment):**  
+`npm run refine -- instagram 8556630311000 --post=5 --type=post --style=juneember --prompt="$(cat instagram-output/prompts/post-05-directors-scene-brief.txt)" --variant=directors-scene`  
+**Regenerate all 3 (generic style):** `npm run refine -- instagram 8556630311000 --all --style=juneember --post=5 --type=post --max=3`
 
 **Caption (copy below)**
 ```

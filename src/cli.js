@@ -7,6 +7,11 @@ import { refineProductForInstagram, refinePoseFromImage, refineImageFromFile } f
 import { generateAndSaveDirectorBrief } from "./director-brief.js";
 import { listProducts } from "./shopify.js";
 import { runRagIndex, runRagQuery } from "./rag/index.js";
+import {
+  askGeminiForGuidelineAdvice,
+  askGeminiToReviewGuidelines,
+  loadGuidelineDocsForReview,
+} from "./expert-draft.js";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -72,6 +77,11 @@ Usage:
   node src/cli.js brief <productId> --post=N --caption="..." [--format=single|carousel] [--output=path]
   node src/cli.js brief <productId> --post=N --rag [--rag-index=.rag/index.json] [--rag-k=6]  (optional) retrieve context into brief
 
+  Expert-draft (Gemini = brain for guidelines; answer shown in chat for you to react, then implement)
+  node src/cli.js expert "<your message or question>"   Ask Gemini for creative/strategic advice (Director, SMM, process).
+  node src/cli.js expert "<message>" --rag [--agent=director|smm]   Include current guidelines from RAG in the prompt.
+  node src/cli.js review   Have Gemini review all guideline docs (consistency, improvements, other cases). Output in chat; you react, then implement.
+
   Instagram: edit product images (saved by type: post/, story/, reel/)
   node src/cli.js instagram <productId>                    Post 1, single image → post/post_01_slide-01_*.png
   node src/cli.js instagram <productId> --post=2           Post 2, single image → post/post_02_slide-01_*.png
@@ -85,7 +95,7 @@ Usage:
   node src/cli.js instagram <productId> --post=1 --reference-url=URL   Use reference image: same pose/lighting, our dress, new face. Or --reference-path=./ref.png
   node src/cli.js instagram <productId> --post=2 --from-image=path/to/front.png --pose=back   Same scene, same garment; only change pose to back (carousel slide 2). Use --pose=side for slide 3.
   node src/cli.js instagram <productId> --post=3 --from-image=path/to/detail.png --pose=back --detail   Detail shot: same room, show back of dress (no face). Use --pose=side for side detail.
-  Naming: {type}_{id}_slide-{nn}_{slug}.png or ..._v{variant}.png. Director's view: docs/DIRECTORS_VIEW.md
+  Naming: {type}_{id}_slide-{nn}_{slug}.png or ..._v{variant}.png. Director's view: docs/DIRECTOR_BRIEF_AND_VISION.md
 
 RAG (retrieval-augmented generation): index docs/prompts and query relevant context
   node src/cli.js rag index [--paths=docs,instagram-output/prompts,instagram-output] [--index=.rag/index.json] [--model=gemini-embedding-001]
@@ -97,6 +107,42 @@ Setup:
   - SHOPIFY_STORE (e.g. mystore.myshopify.com)
   - SHOPIFY_ACCESS_TOKEN (Admin API access token)
 `);
+    return;
+  }
+
+  if (command === "review") {
+    ensureConfig();
+    const projectRoot = process.cwd();
+    const docsContext = loadGuidelineDocsForReview(projectRoot);
+    const result = await askGeminiToReviewGuidelines(docsContext);
+    console.log(result.text);
+    return;
+  }
+
+  if (command === "expert") {
+    ensureConfig();
+    const message = args[1];
+    if (!message) {
+      console.error('Usage: node src/cli.js expert "<your message or question>" [--rag] [--agent=director|smm]');
+      process.exit(1);
+    }
+    const opts = parseArgs(args.slice(2));
+    let retrievedContext;
+    if (opts.rag) {
+      const ragRes = await runRagQuery({
+        indexPath: opts.ragIndexPath,
+        query: opts.agent === "smm"
+          ? "SMM content mix, format rules, post types, captions, hashtags."
+          : "Director brief, story, set, moment, concept, lighting, pose, quality bar.",
+        k: opts.ragK || 6,
+        agentId: opts.agent || "director",
+      });
+      retrievedContext = ragRes.context;
+    }
+    const result = await askGeminiForGuidelineAdvice(message, {
+      retrievedContext,
+    });
+    console.log(result.text);
     return;
   }
 

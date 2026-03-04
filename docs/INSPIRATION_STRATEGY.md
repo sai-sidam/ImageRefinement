@@ -1,6 +1,16 @@
-# Inspiration audit — scalable reference for our inspiration accounts
+# Inspiration strategy — audit, reference, and future workflow
 
 **Purpose:** One place to record what we observe about our inspiration accounts (ohpolly, outcastclothing, misscirclenewyork). Whatever we might reuse later — format mix, captions, activity, reference images, hashtags, timing, or new use cases — we capture here (or in the per-brand folder) and update when we check. No re-checking every time; one audit, many uses.
+
+---
+
+## Reference & inspiration workflow (current state)
+
+**Current state:** We are **not** using reference or inspiration in the Director brief. The previous approach (short style one-liners per account, e.g. "talbotsofficial — timeless elegance") is **set aside** — that was not the intended meaning of "inspiration."
+
+**Future vision (when we build it):** When we talk about **inspiration** or **reference** in the future, we mean: an **AI agent goes live to Instagram** (or has access to an account's feed); it **looks at that account's pictures** (e.g. ohpolly, Miss Circle, Two Sisters the Label); it either **picks one picture** to use as a visual reference (same composition/pose/lighting, our dress) or **understands their whole design language** from the last **20–30 pictures**. That requires working with Instagram and images (API or scraping, image ingestion). We're keeping reference/inspiration aside until we have that capability.
+
+**What still works today:** Director brief has no Reference section (Story, Set, Moment, Concept, Lighting, Pose, Face only). **Optional manual reference image:** You can pass a saved image with `--reference-path` or `--reference-url` when generating; the tool will composite our dress onto that scene (same pose/lighting, new face). See [DIRECTOR_BRIEF_AND_VISION.md](DIRECTOR_BRIEF_AND_VISION.md) § "Reference / inspiration (set aside for now)".
 
 **Scalable:** Each brand has a **section** below and a **folder** (`instagram-output/inspiration/{brand}/`). Add new subsections or new file types when a new use case appears (e.g. "Captions", "Activity", "Stories"). Don’t lock into a fixed table.
 

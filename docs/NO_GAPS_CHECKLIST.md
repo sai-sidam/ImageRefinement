@@ -14,15 +14,15 @@ Use this when:
 
 | Angle | What it means | Where it lives |
 |-------|----------------|----------------|
-| **Customer** | Who is she? What does she want? What does she feel? | [CUSTOMER_AND_EMPATHY_ANGLE.md](CUSTOMER_AND_EMPATHY_ANGLE.md) |
-| **Empathy** | Does our message show we **understand** her (moments, confidence, ease, trust)? | [CUSTOMER_AND_EMPATHY_ANGLE.md](CUSTOMER_AND_EMPATHY_ANGLE.md) |
-| **Trust** | Does the image and copy feel **real**, consistent, transparent? Would she trust us? | [POST_1_PROFESSIONAL_BRIEF.md](POST_1_PROFESSIONAL_BRIEF.md), [AI_VS_NATURAL_IMAGERY.md](AI_VS_NATURAL_IMAGERY.md) |
+| **Customer** | Who is she? What does she want? What does she feel? | [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) |
+| **Empathy** | Does our message show we **understand** her (moments, confidence, ease, trust)? | [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) |
+| **Trust** | Does the image and copy feel **real**, consistent, transparent? Would she trust us? | [EXAMPLE_POST_1.md](EXAMPLE_POST_1.md), [AI_CREATIVE_GUIDELINES.md](AI_CREATIVE_GUIDELINES.md) |
 | **Brand** | Is it on-brand? Elegant, feminine, aspirational; warm neutrals; occasion wear; June & Ember aesthetic. | [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) |
 | **Strategy** | Does it support the goal? (First post = launch, trust, awareness; later posts = mix of hero, detail, lifestyle.) | [SOCIAL_MEDIA_EXPERT.md](SOCIAL_MEDIA_EXPERT.md), [INSTAGRAM_GUIDE.md](INSTAGRAM_GUIDE.md) |
-| **Creative / director** | Is the story, set, and mood right? “June & Ember is here,” arrival, aspirational but achievable? | [DIRECTORS_VIEW.md](DIRECTORS_VIEW.md), [POST_1_COMPLETE_REASONING.md](POST_1_COMPLETE_REASONING.md) |
-| **Photography / quality** | Lighting, coherence, model, garment unchanged, no AI tells? | [POST_1_PROFESSIONAL_BRIEF.md](POST_1_PROFESSIONAL_BRIEF.md) |
+| **Creative / director** | Is the story, set, and mood right? “June & Ember is here,” arrival, aspirational but achievable? | [DIRECTOR_BRIEF_AND_VISION.md](DIRECTOR_BRIEF_AND_VISION.md), [EXAMPLE_POST_1.md](EXAMPLE_POST_1.md) |
+| **Photography / quality** | Lighting, coherence, model, garment unchanged, no AI tells? | [EXAMPLE_POST_1.md](EXAMPLE_POST_1.md) |
 | **Content / social** | Caption hook, CTA, hashtags, format (4:5, hero vs detail)? | [CAPTION_AND_HASHTAG_SETS.md](CAPTION_AND_HASHTAG_SETS.md), [SOCIAL_MEDIA_EXPERT.md](SOCIAL_MEDIA_EXPERT.md) |
-| **Clarity** | Is it clear **who we help** and **what we’re for** (occasion wear, moments that matter)? | [CUSTOMER_AND_EMPATHY_ANGLE.md](CUSTOMER_AND_EMPATHY_ANGLE.md) |
+| **Clarity** | Is it clear **who we help** and **what we’re for** (occasion wear, moments that matter)? | [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) |
 | **Research** | If we’re unsure, did we **search** (web, docs) instead of guessing? | — |
 
 ---
@@ -53,4 +53,4 @@ When the user says “do X,” the job is not only to **do X**. The job is to:
 3. **Research** when we don’t know (web, docs); **ask** when we need a choice from the user; **don’t guess**.
 4. **Then** do X — so the result is complete, not partial.
 
-*This checklist exists so we don’t leave any stone unturned. Link to it from [BRIEF_TO_POST_FLOW.md](BRIEF_TO_POST_FLOW.md) and from the first post / FIRST_POST_READY.*
+*This checklist exists so we don’t leave any stone unturned. Link to it from [OPERATIONAL_WORKFLOWS_AND_ROLES.md](OPERATIONAL_WORKFLOWS_AND_ROLES.md) and from the first post / FIRST_POST_READY.*

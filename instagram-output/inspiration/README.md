@@ -10,4 +10,4 @@ Per-brand folders for anything we save or record from our inspiration accounts. 
 - Activity notes (frequency, timing) → `activity-notes.md`
 - Hashtag examples, Story notes, etc. → any filename that makes sense
 
-**Index and “what we track”:** See [docs/INSPIRATION_FEED_AUDIT.md](../../docs/INSPIRATION_FEED_AUDIT.md). Update the per-brand section when you add or re-check; add new subsection or file type when you have a new use case.
+**Index and “what we track”:** See [docs/INSPIRATION_STRATEGY.md](../../docs/INSPIRATION_STRATEGY.md). Update the per-brand section when you add or re-check; add new subsection or file type when you have a new use case.

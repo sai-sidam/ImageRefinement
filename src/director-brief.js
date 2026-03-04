@@ -4,24 +4,12 @@ import { ensureConfig } from "./config.js";
 import fs from "fs";
 import path from "path";
 
-/** Sets already used (from DIRECTORS_SCENE_STANDARD). The LLM must pick a different type of place. */
+/** Sets already used (from DIRECTOR_BRIEF_AND_VISION). The LLM must pick a different type of place. */
 const SETS_ALREADY_USED = [
   "Post 1: Boutique — ornate mirror, platform/pedestal, clothing rack with hangers, sheer curtains, warm wall.",
   "Post 2: Lobby/lounge — couch/sofa, armchair, side table, potted plant, large window, warm neutrals.",
   "Post 3: White/plaster or terrazzo detail room (detail shot carousel).",
   "Post 4: Light-filled corridor or arched interior — warm stone/tile/plaster, archway, minimal greenery.",
-];
-
-/** Inspiration accounts (from DIRECTORS_VIEW). Primary: ohpolly, outcastclothing, misscirclenewyork. */
-const REFERENCE_ACCOUNTS = [
-  "ohpolly — Bold, aspirational occasion wear; confidence, statement pieces. (Primary inspiration.)",
-  "outcastclothing — Trendy, party, bold; nightlife and occasions; edgy, confident. (Primary inspiration.)",
-  "misscirclenewyork — Glamorous, confident occasion wear; all eyes on me; statement dresses, NYC energy. (Primary inspiration.)",
-  "astee_official — LA aesthetics, sleek semi-formal, clean lines, accessible luxury.",
-  "talbotsofficial — Timeless elegance, subtle glamour, sophisticated draping; evening and occasion.",
-  "Vici — Trend-forward, effortless chic, blogger-style; feminine + edgy; aspirational but wearable.",
-  "babyboofashion — Romantic, figure-enhancing; modern tailoring; casual to semi-formal.",
-  "twosistersthelabel — Timeless, whimsical, beautiful occasion wear; feel beautiful and powerful.",
 ];
 
 /**
@@ -32,7 +20,6 @@ const REFERENCE_ACCOUNTS = [
 function buildDirectorBriefPrompt(context) {
   const { productTitle, postId, captionAngle, format, retrievedContext } = context;
   const setsList = SETS_ALREADY_USED.join("\n- ");
-  const refList = REFERENCE_ACCOUNTS.join("\n- ");
 
   return `You are the Creative Director for June & Ember (junenember.com), a women's occasion-wear brand. Generate a short director's brief for one Instagram post. The brief will be used to write the image-generation prompt later.
 
@@ -43,10 +30,10 @@ ${format ? `**Format:** ${format} (single image = one hero shot; carousel = scen
 
 ${retrievedContext ? `**Retrieved context (internal standards, prior notes, exemplars):**\n${retrievedContext}\n` : ""}
 
-**Set variety (mandatory):** Each post must look distinctly different. These sets are ALREADY USED — do NOT reuse them. Pick a NEW type of place.
+**Set / environment:** The set does **not** have to be different from previous posts. It must be **creative and bold enough** to capture the audience, and it does not have to look the same every time. You have full creative freedom: same type of place is fine if it feels fresh and intentional; a new type of place is fine too. Prioritise specific, striking environments over generic ones. For context, these sets have been used before (use only to inform your choice, not as a hard "must avoid" list):
 - ${setsList}
 
-For Post ${postId}, choose a different type of place (e.g. outdoor terrace, minimal bedroom with linen, garden, stone courtyard, rooftop, etc.). Different materials, different furniture, different props.
+**Moment (required):** Every image must have a **moment** — what is she *doing* in the frame, not just posing for the camera. You MUST name one specific, concrete activity (e.g. "walking toward the railing, hand trailing along it," "pausing with a glass, looking at the city lights," "stepping through the doorway into the light," "adjusting her earring while looking away from camera"). Avoid: "standing elegantly," "leaning confidently," "showcasing the dress," "posing" — these read as static and AI-like. The moment should feel like a candid slice of life, not a deliberate pose for the camera. Be concrete and specific.
 
 **Output format:** Write the brief in plain text. Use these section headers exactly. Keep each section 1–3 sentences.
 
@@ -56,19 +43,19 @@ Director's scene brief for Post ${postId} — ${productTitle}
 (What moment are we in? e.g. "just arrived at the hotel," "resort afternoon." One clear narrative.)
 
 **Set / environment**
-(Where is she? Physical place that supports the story. Be specific: materials, one or two key elements. Explicitly state what this post is NOT — e.g. "Not a lobby with couch; not a boutique with mirror" — and what it IS.)
+(Where is she? Be concretely specific — not generic "elegant interior." Name a real, specific place (examples of the level of specificity: brownstone steps in Brooklyn, piano in a moody lounge, SoHo street at golden hour; you are not limited to these). Materials, one or two key elements. State what this post is NOT and what it IS.)
+
+**Moment**
+(What is she *doing* in the frame? One clear activity or moment that fits the story. Not "posing for camera" — a real moment. You have full creative freedom; examples are only to show the kind of specificity we want.)
 
 **Concept**
-(One sentence: e.g. "Hero shot for post N; aspirational, welcoming.")
-
-**Reference**
-(Pick one inspiration style from this list and name it, or suggest a mood: ${refList})
+(One sentence: e.g. "Hero shot for post N; aspirational, welcoming" or "Editorial hero; bold, understated luxury" or another concept that fits — aspirational and understated luxury are options, not the only options.)
 
 **Lighting**
-(One main source, soft shadows, warm or natural. Must support the story.)
+(Define the light that fits the story and location. Full creative freedom: e.g. one soft source and warm shadows, or LA light, NYC golden hour, Greece sunset, Monaco sunset, sunrise, harsh afternoon beach light, moody interior — whatever supports the story. Not limited to "one main source, soft, warm.")
 
 **Pose & model**
-(Natural, confident; full-length or as needed; relaxed body language, natural hair; at ease in the space.)
+(Pose that supports the moment and concept. Can be natural and confident; can also be bold editorial (Vogue-style), out-of-the-box, unorthodox, or unconventional when it serves the story. Full-length or as needed; she can be in the middle of the moment or in a striking, deliberate pose. Not limited to "relaxed" only.)
 
 **Face**
 (Hero = with face; detail = no face. Say which for this post.)

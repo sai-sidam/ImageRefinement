@@ -36,7 +36,7 @@ Use a **mix** of these; don’t rely on one type only.
 - **Format:** Instagram favors **4:5 vertical** in the feed. Design at **1080×1350 px**. Keep important stuff (face, product, logo) in a **1080×1080 center** so it still looks good when cropped to square in the profile grid.
 - **Same look everywhere.** Your aesthetic should feel the same in feed posts, Reels, and Stories so people recognize your brand instantly.
 
-**→ For a full, expert-level system (color palette, lighting, safe zones, what to document, and how to use this tool to stay consistent), see [VISUAL_SYSTEM.md](VISUAL_SYSTEM.md).**
+**→ For a full, expert-level system (color palette, lighting, safe zones, what to document, and how to use this tool to stay consistent), see [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md).**
 
 ---
 
@@ -115,7 +115,7 @@ Use the **style presets** in the app (e.g. `--style lifestyle` or `--style clean
 
 | Doc | Use it for |
 |-----|-------------|
-| [VISUAL_SYSTEM.md](VISUAL_SYSTEM.md) | Visual system: color, lighting, grid, safe zones, checklist. |
+| [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) | Visual system: color, lighting, grid, safe zones, checklist. |
 | [SOCIAL_MEDIA_EXPERT.md](SOCIAL_MEDIA_EXPERT.md) | Expert playbook: content mix, schedule, captions, Reels, Stories, face/no-face. |
 | [CAPTION_AND_HASHTAG_SETS.md](CAPTION_AND_HASHTAG_SETS.md) | Copy-paste caption hooks and hashtag sets (A/B/C). |
 | [JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) | June & Ember brand one-pager and tool defaults. |

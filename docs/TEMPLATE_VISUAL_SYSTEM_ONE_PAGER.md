@@ -22,7 +22,7 @@
 
 ## Color palette
 
-| Role      | Color name | Hex (optional) |
+| Role      | Color name | Hex |
 |-----------|------------|----------------|
 | Primary 1 |            | #              |
 | Primary 2 |            | #              |
@@ -30,6 +30,8 @@
 | Neutral   |            | #              |
 
 *Use only these 3–5 colors (and their close variants) in the feed.*
+
+Rule about when hex is required: Hex codes are required for any brand-specific colors (logo, text overlays, graphic elements), and for any color that is critical to a campaign's visual theme and needs precise reproduction across digital and print applications. For general photographic colors, descriptive terms are sufficient unless a specific shade match is required.
 
 ---
 
@@ -40,8 +42,8 @@
 - Pillar 1: 
 - Pillar 2: 
 - Pillar 3: 
-- (optional) Pillar 4: 
-- (optional) Pillar 5: 
+- Pillar 4: Graceful Movement & Authentic Emotion — Emphasize fluid motion, natural poses, and genuine expressions that convey confidence, joy, and aspiration. Avoid static, overly posed shots; capture the feeling of wearing the garment in its intended environment.
+- Pillar 5: Elevated Details & Textural Richness — Highlight the exquisite craftsmanship, luxurious fabrics, and refined embellishments. Close-ups on textures, intricate details, and accompanying high-end accessories (jewelry, shoes, bags) are essential to convey quality and sophistication.
 
 **Grid pattern:** *e.g. "Checkerboard: product, lifestyle, product, lifestyle." or "Row of 3 product, then row of 3 lifestyle."*
 

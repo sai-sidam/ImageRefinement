@@ -1,10 +1,10 @@
-# Post 1 — Professional-grade brief (quality bar)
+# Example Post 1 — Professional-grade brief and complete reasoning
 
 Post 1 is the **first image** June & Ember will publish on Instagram.
 
-**Post 1 finalized:** Final image = **directors-scene-front** (`post_01_slide-01_backless-wide-strap-maxi-dress_vdirectors-scene-front.png`). Post 1 used a boutique set (mirror, platform, hangers, curtains); that set was for this post only. Creative bar for all posts = same level, different sets — see [DIRECTORS_SCENE_STANDARD.md](DIRECTORS_SCENE_STANDARD.md). Publish from [FIRST_POST_READY.md](../instagram-output/FIRST_POST_READY.md).
+**Post 1 finalized:** Final image = **directors-scene-front** (`post_01_slide-01_backless-wide-strap-maxi-dress_vdirectors-scene-front.png`). Post 1 used a boutique set (mirror, platform, hangers, curtains); that set was for this post only. Creative bar for all posts = same level, different sets — see [DIRECTOR_BRIEF_AND_VISION.md](DIRECTOR_BRIEF_AND_VISION.md). Publish from [FIRST_POST_READY.md](../instagram-output/FIRST_POST_READY.md).
 
-**Full reasoning (every role, every decision, every prompt line):** [POST_1_COMPLETE_REASONING.md](POST_1_COMPLETE_REASONING.md). The bar is **director- and photographer-level**: the kind of quality a real creative director, photographer, and crew would deliver on a real shoot — not gimmicky, not obviously AI-generated. This doc defines that bar so every decision (prompt, reference, caption, strategy) aligns to it.
+The bar is **director- and photographer-level**: the kind of quality a real creative director, photographer, and crew would deliver on a real shoot — not gimmicky, not obviously AI-generated. This doc defines that bar so every decision (prompt, reference, caption, strategy) aligns to it.
 
 ---
 
@@ -76,6 +76,28 @@ The **content** (caption, hashtags, CTA) and **strategy** (why this is the first
 1. **Reference-image path (recommended):** Save a **real photo** from a professional fashion brand (e.g. talbotsofficial, astee_official) that already meets the bar above. Run the tool with `--reference-path=./that-photo.jpg` (and our product image). The output = that exact frame with our dress and a new face. That is the most reliable way to get director-level quality, because the reference was shot by a real crew.
 2. **Prompt path:** Use the **Post 1 pro-grade prompt** (see `instagram-output/prompts/post-01-pro-grade-prompt.txt`) which encodes the criteria above. Generate a variant and compare to the reference path or to existing variants.
 3. **Choose:** Pick the image that best meets the brief above — then publish with the caption and hashtags from ALL_POSTS_READY.
+
+---
+
+## Complete reasoning (every role, every decision)
+
+This section captures **every** reasoning step behind Post 1: every role, every decision, why each phrase in the prompt exists, and what was missing (gaps filled from research or marked for you to decide).
+
+**Part 1 — Strategic layer:** Producer/Campaign: first post = launch asset; goal = "June & Ember is here," set visual and trust standard. Content strategist: first post = brand awareness, trust, what the account will offer; product as hero, one strong image, caption with CTA. Why this product (Backless Wide Strap Maxi): hero piece that best represents the brand in one image — elegant, occasion-ready.
+
+**Part 2 — Creative direction:** Director's goal = first impression = professional fashion brand; no gimmicks, no obvious AI. Art director (set): location = storytelling device; "arrival somewhere special" — corridor, lobby, light-filled room; warm neutrals, clean, uncluttered; space feels like a real place. Art director (color): first image sets visual identity; warmth = brand and strategy choice; "subtle warmth" not "very warm" (we had too warm and too neutral/flat).
+
+**Part 3 — Styling and casting:** Garment = keep exactly as is (color accuracy critical; ~22% returns cite color). Model: natural, confident pose; natural hair with soft movement; natural expression and relaxed body language; include model face (hero = with face). **Casting gap:** We did not specify hair color, skin tone, ethnicity, makeup. To control: add casting line (e.g. "Any look that fits an elegant occasion-wear brand; focus is the dress and the mood").
+
+**Part 4 — Photography:** Lighting: one clear primary light source; reveals fabric texture and drape; soft key, controlled fill, subtle edge; model and environment lit by the same light (no pasted-in look). Skin: retain subtle texture, sharp and clear, not plastic. Technical: sharp, high-res; product as hero, center frame.
+
+**Part 5 — Negatives:** No flat lighting, no plastic skin, no subject disconnected from the environment (past failures we name so the model doesn't repeat).
+
+**Part 6 — Brand and close:** "June & Ember aesthetic"; "Preserve original product colors 100%" at the end.
+
+**Part 7 — Gaps (what was not in the prompt):** Campaign goal (add: "first post of brand launch"); target audience (optional); casting (add if you want control); MUA brief (optional); why this product (optional one line); content strategy (optional).
+
+**Part 8 — Process note:** When you say "do X": (1) Understand the intention (best outcome for June & Ember). (2) Consider every angle — customer and empathy ([JUNE_EMBER_BRAND.md](JUNE_EMBER_BRAND.md) § Our Customer & Empathy Angle), run [NO_GAPS_CHECKLIST.md](NO_GAPS_CHECKLIST.md). (3) Research if needed. (4) Then perform X.
 
 ---
 

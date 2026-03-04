@@ -14,11 +14,8 @@ export const POLICY_SMM = {
   allowedPathPatterns: [
     "docs/SOCIAL_MEDIA_EXPERT",
     "docs/INSTAGRAM_GUIDE",
-    "docs/INSTAGRAM_RESEARCH",
     "docs/JUNE_EMBER_BRAND",
-    "docs/CUSTOMER_AND_EMPATHY",
     "docs/CAPTION_AND_HASHTAG",
-    "docs/VISUAL_SYSTEM",
     "docs/NO_GAPS",
     "instagram-output/ALL_POSTS_READY",
     "knowledge/exemplars",
@@ -31,12 +28,11 @@ export const POLICY_DIRECTOR = {
   name: "Director (Creative Director / Art Director)",
   k: 6,
   queryPrefix:
-    "June & Ember Creative Director. Director's scene standard, set variety, approved-image workflow, single vs carousel. ",
+    "June & Ember Creative Director. Director's scene standard, set creative-and-bold (context only), approved-image workflow, single vs carousel. ",
   allowedPathPatterns: [
-    "docs/DIRECTORS_SCENE_STANDARD",
-    "docs/DIRECTORS_VIEW",
+    "docs/DIRECTOR_BRIEF_AND_VISION",
     "docs/JUNE_EMBER_BRAND",
-    "docs/ARCHITECTURE",
+    "docs/TECHNICAL_ARCHITECTURE_AND_FLOWS",
     "instagram-output/prompts",
     "instagram-output/ALL_POSTS_READY",
     "knowledge/exemplars",

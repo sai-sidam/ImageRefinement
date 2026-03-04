@@ -213,7 +213,7 @@ Use `--style=juneember` for June & Ember. Use `--all` for carousels (hero + deta
 | First image | Hero, **with face**. |
 | Second image onward | Detail, **no face**. |
 | Single image | Hero, **with face**. |
-| Carousel order | Hero → Detail → (optional) flat-lay/CTA. |
+| Carousel order | Hero → Detail → flat-lay/CTA. |
 | Content mix | ~60% product, ~20% community, ~15% brand, ~5% promo. |
 | Feed posts/week | 3–5. |
 | Reels/week | 3–7. |
@@ -224,6 +224,48 @@ Use `--style=juneember` for June & Ember. Use `--all` for carousels (hero + deta
 | Grid | One pattern (checkerboard/rows/columns), 9–12 posts. |
 | Calendar | Plan 9–12 ahead; batch weekly; review monthly. |
 | Promo | ~5%; align to real sales; tease in Stories. |
+
+---
+
+## 16. A/B testing (best practices)
+
+Systematically test content to optimize engagement and reach. Rotating hashtag sets (see §8) is one form; extend to:
+
+- **Content types:** Test different post types (e.g. Director's-scene carousel vs same-dress-multiple-locations) and measure saves, shares, and sends.
+- **Caption hooks:** Test two hook lines for the same visual; keep one variable, compare performance.
+- **Visual style:** Test different lighting or set families (e.g. indoor vs golden-hour) and compare engagement.
+
+Define one variable per test; run for a set period or until a clear winner; document what worked and fold into the playbook. Use Instagram Insights and any link/shop metrics to decide.
+
+---
+
+## 17. Localization and cultural sensitivity (future)
+
+If the brand expands into other markets, SMM and Director should research and incorporate culturally appropriate stories, sets, and model presentation. Avoid assumptions that work only in one region; when in doubt, ask or defer to local expertise.
+
+---
+
+## 18. Research & multi-perspective insights
+
+Industry research from several angles: brand maintenance, success stories, business metrics, early-stage goals, inspiration brands, platform algorithm, occasion-wear niche, customer journey, and mistakes to avoid. Use to inform SMM decisions, RAG retrieval, and goal-setting.
+
+**Brand perspective:** Move from "post and hope" to distribution and relationship platform. Content pillars: episodic series, Reels (~22% more interaction), broadcast channels (90%+ open rates). Messaging: connection (BTS, founder), thought reversal, value (styling tips), social proof. Shopping: shoppable posts, 130M+ tap shopping posts monthly.
+
+**Success stories:** Oh Polly (eBay to £113M, 9M+ followers): micro-influencer imagery from day one, UGC, TikTok. Common tactics: high-quality product visuals + UGC, micro-influencers (5K–20K), consistent storytelling, Instagram Ads + retargeting (3–9x ROAS).
+
+**Business/KPIs:** Track new vs repeat customer; first-party attribution critical; ROAS by segment (Advantage+ can underperform above ~$50 AOV). Funnel: capture (~40%), converse (~30%), convert & retain. ~72% discover fashion via creators; ~71% Gen Z buy from social.
+
+**Early-stage:** Community over numbers; 100 followers who care > 10K who don't. Profile = shop window; niche clearly defined. Carousels drive saves/shares; Reels for reach; shares > likes. 20–30 posts to establish; 3–5 posts/week. Avoid: buying followers, follow-for-follow, automation.
+
+**Inspiration brands (occasion-wear):** Oh Polly, Phase Eight, Azazie, Showpo — shoppable feeds, UGC, influencer models, seasonal occasion themes, "as seen on" roundups.
+
+**Algorithm (2024–2025):** Separate algorithms per surface (Feed, Reels, Stories, Explore, Search). Top factors: watch time (past first 3s), likes per reach, sends per reach (shares via DM). Reels/Explore = entertainment, discovery; Feed = mix of interaction + suggested; no watermarks, has audio, under 3 min, original.
+
+**Customer journey:** Awareness (Reels, Explore) → consideration (carousels, Stories, UGC) → purchase (shoppable, product tags). Content by stage: 40% discovery, 30% engagement, rest conversion/loyalty.
+
+**Mistakes to avoid:** No strategy, inconsistent posting, promo overload (80/20 rule), algorithm ignorance, private account, poor production planning, ignoring seasonality.
+
+**Summary for June & Ember:** Build community and trust first; clear niche (occasion wear); 20–30 posts to establish; content mix per this playbook; Reels for algorithm; track new vs repeat; avoid no strategy, inconsistency, 80% promo. *Sources: industry articles and case studies (BitBranding, Shopify, Skedsocial, Later, and others).*
 
 ---
 
